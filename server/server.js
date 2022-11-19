@@ -1,7 +1,7 @@
 // server.js
 const uWS = require("uWebSockets.js");
 const { v4: uuidv4  } = require("uuid");
-const port = 7777;
+const port = process.env.PORT || 7777;
 
 let SOCKETS = [];
 
