@@ -101,14 +101,14 @@ const app = uWS
       app.publish(MESSAGE_ENUM.CLIENT_DISCONNECTED, JSON.stringify(pubMsg));
     },
   })
+  .get('/*', (res, req) => {
+
+    /* It does Http as well */
+    res.writeStatus('200 OK').writeHeader('IsExample', 'Yes').end('Hello there!');
+    
+  })
   .listen(port, (token) => {
     token
       ? console.log(`Listening to port ${port}`)
       : console.log(`Failed to listen to port ${port}`);
   });
-
-function createName(randomInt) {
-  return SOCKETS.find((ws) => ws.name === `user-${randomInt}`)
-    ? createName(getRandomInt())
-    : `user-${randomInt}`;
-}
