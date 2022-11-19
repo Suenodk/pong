@@ -101,6 +101,12 @@ const app = uWS
       app.publish(MESSAGE_ENUM.CLIENT_DISCONNECTED, JSON.stringify(pubMsg));
     },
   })
+  .get('/*', (res, req) => {
+
+    /* It does Http as well */
+    res.writeStatus('200 OK').writeHeader('IsExample', 'Yes').end('Hello there!');
+    
+  })
   .listen(port, (token) => {
     token
       ? console.log(`Listening to the specified port ${port}`, token)
