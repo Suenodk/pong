@@ -109,6 +109,6 @@ const app = uWS
   })
   .listen(port, (token) => {
     token
-      ? console.log(`Listening to port ${port}`)
-      : console.log(`Failed to listen to port ${port}`);
+      ? console.log(`Listening to the specified port ${port}`, token)
+      : console.log(`Failed to listen to the specified port ${port}`, token);
   });
