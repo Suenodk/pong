@@ -1,14 +1,24 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link rel="stylesheet" href="./css/site.css"/>
-    </head>
-    <body>
-        <div id="canvas-container">
-
-        </div>
-        <script src="https://pixijs.download/release/pixi.js"></script>
-        <script src="./js/site.js"></script>
-        <script src="./js/socket.js"></script>
-    </body>
+  <head>
+    <link rel="stylesheet" href="./css/site.css" />
+  </head>
+  <body>
+    <div id="landing-screen">
+      <div class="flex-row">
+        <input id="room-id-input" />
+        <button onclick="joinRoom()">Join</button>
+      </div>
+      <button onclick="createRoom()">Create new room instead</button>
+    </div>
+    <div id="game-screen">
+      <div class="centered-text">
+        <h5 id="room-id"></h5>
+      </div>
+      <div id="canvas-container"></div>
+    </div>
+    <script src="https://pixijs.download/release/pixi.js"></script>
+    <script src="./js/site.js"></script>
+    <script src="./js/socket.js"></script>
+  </body>
 </html>
