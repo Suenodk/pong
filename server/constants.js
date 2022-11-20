@@ -3,9 +3,40 @@ const SCREEN_WIDTH = 600;
 const SCREEN_HEIGHT = 800;
 const PORT = process.env.PORT || 3000;
 
+// add an enum with Object.freeze for code safety
+const MESSAGE_ENUM = Object.freeze({
+    SELF_CONNECTED: "SELF_CONNECTED",
+    CLIENT_CONNECTED: "CLIENT_CONNECTED",
+    CLIENT_DISCONNECTED: "CLIENT_DISCONNECTED",
+    CLIENT_MESSAGE: "CLIENT_MESSAGE",
+  });
+  
+  const ROOM_ENUM = Object.freeze({
+    JOIN_ROOM: "JOIN_ROOM",
+    CREATE_ROOM: "CREATE_ROOM",
+  });
+  
+  const GAME_UPDATE = Object.freeze({
+    MOVE_LEFT: "MOVE_LEFT",
+    MOVE_RIGHT: "MOVE_RIGHT",
+    STOP_MOVE_LEFT: "STOP_MOVE_LEFT",
+    STOP_MOVE_RIGHT: "STOP_MOVE_RIGHT",
+  });
+  
+  const GAME_COMMANDS = [
+    GAME_UPDATE.MOVE_LEFT,
+    GAME_UPDATE.MOVE_RIGHT,
+    GAME_UPDATE.STOP_MOVE_LEFT,
+    GAME_UPDATE.STOP_MOVE_RIGHT,
+  ];
+
 module.exports = {
   FRAME_RATE,
   SCREEN_WIDTH,
   SCREEN_HEIGHT,
-  PORT
+  PORT,
+  MESSAGE_ENUM,
+  ROOM_ENUM,
+  GAME_UPDATE,
+  GAME_COMMANDS,
 }

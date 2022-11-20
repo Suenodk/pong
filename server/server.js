@@ -1,37 +1,12 @@
 // server.js
 const uWS = require("uWebSockets.js");
 const { v4: uuidv4 } = require("uuid");
-const { FRAME_RATE, SCREEN_WIDTH, SCREEN_HEIGHT, PORT } = require('./constants');
+const { FRAME_RATE, SCREEN_WIDTH, SCREEN_HEIGHT, PORT, MESSAGE_ENUM, ROOM_ENUM, GAME_UPDATE, GAME_COMMANDS} = require('./constants');
+const { User } = require("./user");
+const { Message } = require("./message");
 
-// add an enum with Object.freeze for code safety
-const MESSAGE_ENUM = Object.freeze({
-  SELF_CONNECTED: "SELF_CONNECTED",
-  CLIENT_CONNECTED: "CLIENT_CONNECTED",
-  CLIENT_DISCONNECTED: "CLIENT_DISCONNECTED",
-  CLIENT_MESSAGE: "CLIENT_MESSAGE",
-});
-
-const ROOM_ENUM = Object.freeze({
-  JOIN_ROOM: "JOIN_ROOM",
-  CREATE_ROOM: "CREATE_ROOM",
-});
-
-const GAME_UPDATE = Object.freeze({
-  MOVE_LEFT: "MOVE_LEFT",
-  MOVE_RIGHT: "MOVE_RIGHT",
-  STOP_MOVE_LEFT: "STOP_MOVE_LEFT",
-  STOP_MOVE_RIGHT: "STOP_MOVE_RIGHT",
-});
-
-const GAME_COMMANDS = [
-  GAME_UPDATE.MOVE_LEFT,
-  GAME_UPDATE.MOVE_RIGHT,
-  GAME_UPDATE.STOP_MOVE_LEFT,
-  GAME_UPDATE.STOP_MOVE_RIGHT,
-];
-
-let SOCKETS = [];
-let ROOMS = [];
+const USERS = [];
+const ROOMS = [];
 
 class Paddle {
   x;
@@ -119,42 +94,18 @@ const app = uWS
     idleTimeout: 60,
 
     open: (ws, req) => {
-      ws.room = generateRoomNumber();
-      ws.username = ws.id = uuidv4();
+      const currentUser = new User(ws, uuidv4());
+      currentUser.subscribeToMessages();
+      USERS.push(currentUser);
 
-      const room = new Room(ws.room);
-      room.addClient(ws.id);
-
-      // subscribe to topics
-      ws.subscribe(MESSAGE_ENUM.CLIENT_CONNECTED);
-      ws.subscribe(MESSAGE_ENUM.CLIENT_DISCONNECTED);
-      ws.subscribe(MESSAGE_ENUM.CLIENT_MESSAGE);
-
-      // global SOCKETS array created earlier
-      SOCKETS.push(ws);
-      ROOMS.push(room);
-
-      updateRoom(room.roomId);
-
-      // indicate message type so the client can filter with a switch statement later on
-      let selfMsg = {
-        type: MESSAGE_ENUM.SELF_CONNECTED,
-        body: { room: ws.room, clientId: ws.username },
-      };
-
-      let pubMsg = {
-        type: MESSAGE_ENUM.CLIENT_CONNECTED,
-        body: {
-          id: ws.id,
-          name: ws.username,
-        },
-      };
+      const selfMessage = new Message(MESSAGE_ENUM.SELF_CONNECTED, `Welcome ${currentUser.username}`);
+      const publicMessage = new Message(MESSAGE_ENUM.CLIENT_CONNECTED, `${currentUser.username} has logged in`);
 
       // send to connecting socket only
-      ws.send(JSON.stringify(selfMsg));
+      ws.send(JSON.stringify(selfMessage));
 
       // send to *all* subscribed sockets
-      app.publish(MESSAGE_ENUM.CLIENT_CONNECTED, JSON.stringify(pubMsg));
+      app.publish("test", JSON.stringify(publicMessage));
     },
 
     message: (ws, message, isBinary) => {
