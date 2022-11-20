@@ -1,9 +1,7 @@
 // server.js
-const express = require("express");
-const WebSocket = require("ws");
-const { v4: uuidv4 } = require("uuid");
-const http = require("http");
-const port = process.env.PORT || 7777;
+const uWS = require("uWebSockets.js");
+const { v4: uuidv4  } = require("uuid");
+const port = process.env.PORT || 3000;
 
 let SOCKETS = [];
 
@@ -20,34 +18,91 @@ const MESSAGE_ENUM = Object.freeze({
   CLIENT_MESSAGE: "CLIENT_MESSAGE",
 });
 
-const app = express();
+const app = uWS
+  .App()
+  .ws("/", {
+    // config
+    compression: 0,
+    maxPayloadLength: 16 * 1024 * 1024,
+    idleTimeout: 60,
 
-//initialize a simple http server
-const server = http.createServer(app);
+    open: (ws, req) => {
+      ws.username = ws.id = uuidv4();
 
-const wss = new WebSocket.Server({ server });
+      // subscribe to topics
+      ws.subscribe(MESSAGE_ENUM.CLIENT_CONNECTED);
+      ws.subscribe(MESSAGE_ENUM.CLIENT_DISCONNECTED);
+      ws.subscribe(MESSAGE_ENUM.CLIENT_MESSAGE);
 
-wss.on("connection", (ws) => {
-  //connection is up, let's add a simple simple event
-  ws.on("message", (message) => {
-    x = Math.random() * 600;
-    y = Math.random() * 800;
-    //log the received message and send it back to the client
-    console.log("received: %s", message);
-    wss.broadcast(JSON.stringify({ x, y }));
+      // global SOCKETS array created earlier
+      SOCKETS.push(ws);
+
+      // indicate message type so the client can filter with a switch statement later on
+      let selfMsg = {
+        type: MESSAGE_ENUM.SELF_CONNECTED,
+        body: {
+          x,
+          y
+        },
+      };
+
+      let pubMsg = {
+        type: MESSAGE_ENUM.CLIENT_CONNECTED,
+        body: {
+          id: ws.id,
+          name: ws.username,
+        },
+      };
+
+      // send to connecting socket only
+      ws.send(JSON.stringify(selfMsg));
+
+      // send to *all* subscribed sockets
+      app.publish(MESSAGE_ENUM.CLIENT_CONNECTED, JSON.stringify(pubMsg));
+    },
+
+    message: (ws, message, isBinary) => {
+      // decode message from client
+      let clientMsg = JSON.parse(decoder.decode(message));
+      let serverMsg = {};
+
+      switch (clientMsg.type) {
+        case MESSAGE_ENUM.CLIENT_MESSAGE:
+          x = Math.random() * 600;
+          y = Math.random() * 800;
+          serverMsg = {
+            type: MESSAGE_ENUM.CLIENT_MESSAGE,
+            sender: ws.username,
+            body: {x, y},
+          };
+
+          app.publish(MESSAGE_ENUM.CLIENT_MESSAGE, JSON.stringify(serverMsg));
+          break;
+        default:
+          console.log("Unknown message type.");
+      }
+    },
+
+    close: (ws, code, message) => {
+      SOCKETS.find((socket, index) => {
+        if (socket && socket.id === ws.id) {
+          SOCKETS.splice(index, 1);
+        }
+      });
+
+      let pubMsg = {
+        type: MESSAGE_ENUM.CLIENT_DISCONNECTED,
+        body: {
+          id: ws.id,
+          name: ws.name,
+        },
+      };
+
+      app.publish(MESSAGE_ENUM.CLIENT_DISCONNECTED, JSON.stringify(pubMsg));
+    },
+  })
+  .listen(port, (token) => {
+    token
+      ? console.log(`Listening to the specified port ${port}`, token)
+      : console.log(`Failed to listen to the specified port ${port}`, token);
   });
-
-  //send immediatly a feedback to the incoming connection
-  ws.send(JSON.stringify({ x, y }));
-});
-
-//start our server
-server.listen(port, () => {
-  console.log(`Server started on port ${server.address().port} :)`);
-});
-
-wss.broadcast = function broadcast(message) {
-  wss.clients.forEach(c => {
-    c.send(message);
-  });
-}

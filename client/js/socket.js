@@ -5,7 +5,7 @@ const MESSAGE_ENUM = Object.freeze({
     CLIENT_MESSAGE: "CLIENT_MESSAGE",
   });
   
-  ws = new WebSocket("ws://127.0.0.1:7777/ws");
+  ws = new WebSocket("ws://localhost:3000");
   ws.onopen = (evt) => {
     ws.onmessage = (evt) => {
       let msg = JSON.parse(evt.data);
