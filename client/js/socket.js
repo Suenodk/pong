@@ -25,6 +25,8 @@ const MESSAGE_ENUM = Object.freeze({
             square.y = msg.body.y;
           break;
         default:
+          square.x = msg.x;
+          square.y = msg.y;
           console.log("Unknown message type.", msg);
       }
     };
