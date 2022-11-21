@@ -114,10 +114,40 @@ function joinRoom() {
 
 function createRoom() {
   ws.send(
-    JSON.stringify({
-      type: MESSAGE_ENUM.CLIENT_MESSAGE,
-      clientId: clientId,
-      body: { ROOM_ENUM: ROOM_ENUM.CREATE_ROOM },
-    })
+    JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ROOM, ROOM_ENUM.CREATE_ROOM, clientId))
   );
+}
+
+function navigateToGameRoom(roomId) {
+  document.getElementById("landing-screen").style.display = "none";
+  document.getElementById("game-screen").style.display = "block";
+  document.getElementById("room-id").innerHTML = roomId;
+}
+
+function login() {
+  ws = new WebSocket("ws://localhost:3000");
+  ws.addEventListener('open', onOpenConnection);
+  ws.addEventListener('close', onCloseConnection);
+  ws.addEventListener('message', onMessage);
+}
+
+function displayRooms() {
+  const parent = document.getElementById("rooms");
+
+  while (parent.firstChild) {
+    parent.removeChild(parent.lastChild);
+  }
+
+  rooms.forEach(r => {
+    const roomElement = document.createElement("li");
+    const roomDisplay = document.createElement("div");
+    const roomButton = document.createElement("button");
+
+    roomDisplay.innerHTML = r.name;
+    roomButton.innerHTML = "Join";
+
+    roomElement.appendChild(roomDisplay);
+    roomElement.appendChild(roomButton);
+    parent.appendChild(roomElement);
+  });
 }

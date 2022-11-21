@@ -1,23 +1,37 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" href="./css/typography.css" />
     <link rel="stylesheet" href="./css/site.css" />
   </head>
   <body>
+    <header>
+      <h5>Ppong</h5>
+      <h6>Welcome <span class="h5" id="username-display"></span></h6>
+    </header>
     <div id="landing-screen">
       <div class="flex-row">
-        <input id="room-id-input" />
-        <button onclick="joinRoom()">Join</button>
+        <input id="username-input" />
+        <button onclick="login()">Join</button>
       </div>
-      <button onclick="createRoom()">Create new room instead</button>
+    </div>
+    <div id="lobby-screen">
+      <button class="mt-1" id="create-room-button" onclick="createRoom()">Create new room</button>
+
+      <h5 class="mt-1">124 players online</h5>
+      
+      <ul id="rooms" class="mt-1">
+      </ul>
     </div>
     <div id="game-screen">
       <div class="centered-text">
-        <h5 id="room-id"></h5>
+        <h4 id="room-id"></h4>
       </div>
       <div id="canvas-container"></div>
     </div>
     <script src="https://pixijs.download/release/pixi.js"></script>
+    <script src="./js/constants.js"></script>
+    <script src="./js/message.js"></script>
     <script src="./js/site.js"></script>
     <script src="./js/socket.js"></script>
   </body>

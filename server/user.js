@@ -1,24 +1,26 @@
-const { MESSAGE_ENUM } = require("./constants");
+const { generateUsername } = require("friendly-username-generator");
+const { EVENT_TYPE_ENUM } = require("./constants");
 
 class User {
   socket;
   id;
   username;
+  roomId;
 
   constructor(socket, id) {
     this.socket = socket;
     this.id = id;
+    this.username = generateUsername();
+    this.socket.id = id;
   }
 
   subscribeToMessages() {
-    ws.subscribe(MESSAGE_ENUM.CLIENT_CONNECTED);
-    ws.subscribe(MESSAGE_ENUM.CLIENT_DISCONNECTED);
-    ws.subscribe(MESSAGE_ENUM.CLIENT_MESSAGE);
+    this.socket.subscribe(EVENT_TYPE_ENUM.CLIENT_CONNECTED);
+    this.socket.subscribe(EVENT_TYPE_ENUM.CLIENT_DISCONNECTED);
+    this.socket.subscribe(EVENT_TYPE_ENUM.CLIENT_MESSAGE);
   }
 
-  unsubscribeToMessages() {
-    
-  }
+  unsubscribeToMessages() {}
 }
 
 module.exports = {

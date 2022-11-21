@@ -1,9 +1,3 @@
-const FRAME_RATE = 60;
-const SCREEN_WIDTH = 600;
-const SCREEN_HEIGHT = 800;
-const PORT = process.env.PORT || 3000;
-
-// add an enum with Object.freeze for code safety
 const EVENT_TYPE_ENUM = Object.freeze({
     SELF_CONNECTED: "SELF_CONNECTED",
     CLIENT_CONNECTED: "CLIENT_CONNECTED",
@@ -15,8 +9,7 @@ const EVENT_TYPE_ENUM = Object.freeze({
   const CATEGORY_ENUM = Object.freeze({
     SERVER: "SERVER",
     ROOM: "ROOM",
-    GAME: "GAME",
-    ERROR: "ERROR",
+    GAME: "GAME"
   })
   
   const ROOM_ENUM = Object.freeze({
@@ -38,15 +31,3 @@ const EVENT_TYPE_ENUM = Object.freeze({
     GAME_UPDATE.STOP_MOVE_LEFT,
     GAME_UPDATE.STOP_MOVE_RIGHT,
   ];
-
-module.exports = {
-  FRAME_RATE,
-  SCREEN_WIDTH,
-  SCREEN_HEIGHT,
-  PORT,
-  EVENT_TYPE_ENUM,
-  ROOM_ENUM,
-  GAME_UPDATE,
-  GAME_COMMANDS,
-  CATEGORY_ENUM
-}

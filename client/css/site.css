@@ -1,6 +1,15 @@
+:root {
+  --text-light: #E6E6E6;
+}
+
 body {
   margin: 0;
   overflow: hidden;
+  background-color: #212129;
+}
+
+button:hover {
+  cursor: pointer;
 }
 
 #canvas-container {
@@ -12,22 +21,19 @@ body {
   place-items: center;
 }
 
-h4 {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 3.5rem;
-  font-weight: 400;
-}
-
-h5 {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 2.5rem;
-  font-weight: 400;
-  margin: 0px;
+header {
+  background-color: #3d3e51;
+  color: var(--text-light);
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
 }
 
 #room-id {
-    margin-top: 1rem;
-    z-index: 1;
+  margin-top: 1rem;
+  z-index: 1;
 }
 
 .centered-text {
@@ -40,6 +46,8 @@ h5 {
 }
 
 #landing-screen {
+  position: absolute;
+  top: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -55,4 +63,104 @@ h5 {
 
 #game-screen {
   display: none;
+}
+
+#lobby-screen {
+  display: none;
+  justify-content: start;
+  align-items: center;
+  height: calc(100vh - 4rem - 2rem);
+  flex-direction: column;
+}
+
+input {
+  font-size: 1.75rem;
+  border: none;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  background-color: #343040;
+  color: var(--text-light);
+  padding: 0.5rem 0.75rem;
+  outline: none;
+  text-transform: uppercase;
+  font-family: Arial, Helvetica, sans-serif;
+  letter-spacing: 0.2rem;
+  width: 15rem;
+}
+
+#username-input + button {
+  background-color: #5e0fff;
+  border: none;
+  outline: none;
+  text-transform: uppercase;
+  color: var(--text-light);
+  letter-spacing: 0.1rem;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  padding: 0px 0.75rem;
+  font-size: 1rem;
+}
+
+#username-input + button:hover {
+  background-color: #560ee6;
+}
+
+#rooms li {
+  list-style: none;
+  display: flex;
+  align-items: center;
+}
+
+#rooms li div {
+  text-transform: uppercase;
+  font-family: Arial;
+  font-size: 2rem;
+  background-color: #410169;
+  padding: 0.5rem;
+  color: var(--text-light);
+  margin: 0.75rem 0;
+  width: 32rem;
+  letter-spacing: 0.1rem;
+}
+
+#rooms li div + button {
+  background: #1D750D;
+  border: none;
+  outline: none;
+  color: var(--text-light);
+  text-transform: uppercase;
+  font-size: 1.1rem;
+  font-family: Arial;
+  padding: 1.05rem 0.5rem;
+  height: 100%;
+}
+
+#create-room-button {
+  background-color: #5e0fff;
+  border: none;
+  outline: none;
+  text-transform: uppercase;
+  color: var(--text-light);
+  letter-spacing: 0.1rem;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  padding: 0.5rem 0.75rem;
+  font-size: 1.5rem;
+}
+
+#create-room-button:hover {
+  background-color: #560ee6;
+}
+
+#rooms .room-full div+button {
+  background-color: #210136;
+  color: #808080;
+}
+
+.mt-1 {
+  margin-top: 1rem;
 }
