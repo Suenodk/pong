@@ -273,8 +273,12 @@ const app = uWS
 
       console.log(`${ws.id} has logged out`);
     },
-  })
-  .listen(PORT, (token) => {
+  }).get('/*', (res, req) => {
+
+  /* It does Http as well */
+  res.writeStatus('200 OK').writeHeader('IsExample', 'Yes').end('Hello there!');
+  
+}).listen(PORT, (token) => {
     token
       ? console.log(`Listening to the specified port ${PORT}`, token)
       : console.log(`Failed to listen to the specified port ${PORT}`, token);
