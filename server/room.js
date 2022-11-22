@@ -15,6 +15,12 @@ class Room {
   addUser(user) {
     this.users.push(user);
   }
+
+  sendMessageToUsersInRoom(message) {
+    this.users.forEach((u) => {
+      u.socket.send(JSON.stringify(message));
+    });
+  }
 }
 
 module.exports = {

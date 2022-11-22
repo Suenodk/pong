@@ -53,6 +53,7 @@ class Paddle {
     this.right = false;
   }
 }
+
 class GameState {
   topPaddle;
   bottomPaddle;
@@ -65,29 +66,6 @@ class GameState {
   update() {
     this.topPaddle.update();
     this.bottomPaddle.update();
-  }
-}
-
-class Room {
-  roomId;
-  gameState;
-  topClientId = undefined;
-  bottomClientId = undefined;
-  constructor(roomId) {
-    this.roomId = roomId;
-    this.gameState = new GameState();
-  }
-
-  get clients() {
-    return [this.topClientId, this.bottomClientId];
-  }
-
-  addClient(clientId) {
-    if (this.topClientId === undefined) {
-      this.topClientId = clientId;
-    } else if (this.bottomClientId === undefined) {
-      this.bottomClientId = clientId;
-    }
   }
 }
 
@@ -158,13 +136,28 @@ const app = uWS
             // and also to the creator because he is not in the lobby anymore
             ws.send(JSON.stringify(message));
           } else if (clientMessage.message === ROOM_ENUM.JOIN_ROOM) {
-            gameServer.joinRoom(clientMessage.senderId, clientMessage.data);
+            const user = gameServer.users.find(u => u.id === clientMessage.senderId);
+            const room = gameServer.joinRoom(clientMessage.senderId, clientMessage.data);
+
+            const message = new SuccesServerMessage(
+              EVENT_TYPE_ENUM.CLIENT_MESSAGE,
+              CATEGORY_ENUM.ROOM,
+              ROOM_ENUM.JOIN_ROOM,
+              clientMessage.senderId,
+              {user: user, room: room}
+            );
+
+            // send the message to everyone in the room
+            room.sendMessageToUsersInRoom(message);
           } else {
             const errorMessage = new ErrorMessage(`${clientMessage.message} is not a valid message`);
             console.log(errorMessage.message);
             ws.send(JSON.stringify(errorMessage));
           }
           break;
+        }
+        case CATEGORY_ENUM.GAME: {
+
         }
       }
 

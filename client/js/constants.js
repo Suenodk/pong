@@ -15,6 +15,7 @@ const EVENT_TYPE_ENUM = Object.freeze({
   const ROOM_ENUM = Object.freeze({
     JOIN_ROOM: "JOIN_ROOM",
     CREATE_ROOM: "CREATE_ROOM",
+    LEAVE_ROOM: "LEAVE_ROOM",
     DELETE_ROOM: "DELETE_ROOM"
   });
   

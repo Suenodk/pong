@@ -26,7 +26,7 @@ class GameServer {
     const user = this.users.find((u) => u.id === userId);
     const index = this.users.indexOf(user);
 
-    if(user !== undefined) {
+    if (user !== undefined) {
       this.#removeUserFromRoom(user);
     }
 
@@ -53,9 +53,7 @@ class GameServer {
   }
 
   sendMessageToLobbyRoom(message) {
-    this.lobbyRoom.users.forEach((u) => {
-      u.socket.send(JSON.stringify(message));
-    });
+    this.lobbyRoom.sendMessageToUsersInRoom(message);
   }
 
   #removeUserFromRoom(user) {
@@ -68,10 +66,25 @@ class GameServer {
 
     currentRoom.removeUser(user);
 
-    if(currentRoom !== this.lobbyRoom && currentRoom.users.length === 0) {
+    // if the user was in the lobbyroom we don't want to do anything anymore
+    if (currentRoom === this.lobbyRoom) return;
+
+    // otherwise we want to remove the room if it became empty or notify the other users that someone has left the room
+    if (currentRoom.users.length === 0) {
       const index = this.gameRooms.indexOf(currentRoom);
       this.gameRooms.splice(index, 1);
-      this.sendMessageToLobbyRoom(new ServerMessage(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ROOM, ROOM_ENUM.DELETE_ROOM, "", currentRoom.id));
+      this.sendMessageToLobbyRoom(
+        new ServerMessage(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ROOM, ROOM_ENUM.DELETE_ROOM, "", currentRoom.id)
+      );
+    } else {
+      const message = new ServerMessage(
+        EVENT_TYPE_ENUM.CLIENT_MESSAGE,
+        CATEGORY_ENUM.ROOM,
+        ROOM_ENUM.LEAVE_ROOM,
+        "",
+        user.id
+      );
+      currentRoom.sendMessageToUsersInRoom(message);
     }
   }
 
@@ -79,17 +92,14 @@ class GameServer {
     this.lobbyRoom.addUser(user);
   }
 
-  #addUserToRoom(user, roomId) {
+  joinRoom(userId, roomId) {
+    const user = this.users.find((u) => u.id === userId);
     const room = this.gameRooms.find((r) => r.id === roomId);
 
-    if (room === undefined) {
-      console.log(`Can't add user to room ${roomId}, group does not exist`);
-      return;
-    }
-
     this.#removeUserFromRoom(user);
-
     room.addUser(user);
+
+    return room;
   }
 
   #generateRoomId() {
