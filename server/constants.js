@@ -2,6 +2,7 @@ const FRAME_RATE = 60;
 const SCREEN_WIDTH = 600;
 const SCREEN_HEIGHT = 800;
 const PORT = process.env.PORT || 3000;
+const HOST = '0.0.0.0';
 
 // add an enum with Object.freeze for code safety
 const EVENT_TYPE_ENUM = Object.freeze({
@@ -44,6 +45,7 @@ module.exports = {
   SCREEN_WIDTH,
   SCREEN_HEIGHT,
   PORT,
+  HOST,
   EVENT_TYPE_ENUM,
   ROOM_ENUM,
   GAME_UPDATE,

@@ -3,6 +3,7 @@ const { v4: uuidv4 } = require("uuid");
 const {
   SCREEN_WIDTH,
   PORT,
+  HOST,
   EVENT_TYPE_ENUM,
   ROOM_ENUM,
   GAME_UPDATE,
@@ -14,7 +15,6 @@ const { ServerMessage, ClientMessage, ErrorMessage, SuccesServerMessage } = requ
 const { GameServer } = require("./gameServer");
 
 const gameServer = new GameServer();
-const host = '0.0.0.0'
 
 class Paddle {
   x;
@@ -280,7 +280,7 @@ const app = uWS
   /* It does Http as well */
   res.writeStatus('200 OK').writeHeader('IsExample', 'Yes').end('Hello there!');
   
-}).listen(host, PORT, (token) => {
+}).listen(HOST, PORT, (token) => {
     token
       ? console.log(`Listening to the specified port ${PORT}`, token)
       : console.log(`Failed to listen to the specified port ${PORT}`, token);
