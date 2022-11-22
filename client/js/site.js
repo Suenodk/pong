@@ -125,7 +125,7 @@ function navigateToGameRoom(roomId) {
 }
 
 function login() {
-  ws = new WebSocket("wss://squid-app-akooh.ondigitalocean.app");
+  ws = new WebSocket("wss://server-9i62.onrender.com");
   //ws = new WebSocket("ws://localhost:3000");
   ws.addEventListener('open', onOpenConnection);
   ws.addEventListener('close', onCloseConnection);
