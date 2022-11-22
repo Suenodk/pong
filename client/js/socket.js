@@ -7,9 +7,12 @@ let ws = undefined;
 let rooms = [];
 let users = [];
 
-function onOpenConnection(event) {}
+function onOpenConnection() {
+  console.log("connected to server!");
+}
 
 function onMessage(event) {
+  console.log(event);
   const message = new ClientMessage(JSON.parse(event.data));
   console.log(message);
 

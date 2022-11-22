@@ -125,7 +125,8 @@ function navigateToGameRoom(roomId) {
 }
 
 function login() {
-  ws = new WebSocket("ws://localhost:3000");
+  ws = new WebSocket("wss://squid-app-akooh.ondigitalocean.app");
+  //ws = new WebSocket("ws://localhost:3000");
   ws.addEventListener('open', onOpenConnection);
   ws.addEventListener('close', onCloseConnection);
   ws.addEventListener('message', onMessage);

@@ -102,8 +102,21 @@ const app = uWS
     compression: 0,
     maxPayloadLength: 16 * 1024 * 1024,
     idleTimeout: 60,
+    upgrade: (res, req, context) => {
+      if (req.getHeader("origin") !== "https://ppong.nl") {
+        res.close();
+        return;
+      }
 
-    open: (ws, req) => {
+      res.upgrade(
+        { url: req.getUrl() },
+        req.getHeader("sec-websocket-key"),
+        req.getHeader("sec-websocket-protocol"),
+        req.getHeader("sec-websocket-extensions"),
+        context
+      );
+    },
+    open: (ws) => {
       const currentUser = new User(ws, uuidv4());
       currentUser.subscribeToMessages();
       gameServer.addUser(currentUser);
@@ -139,7 +152,7 @@ const app = uWS
               clientMessage.senderId,
               room
             );
-            
+
             // we send it to everyone in the lobby so they can render the room
             gameServer.sendMessageToLobbyRoom(message);
             // and also to the creator because he is not in the lobby anymore
@@ -276,11 +289,12 @@ const app = uWS
 
       console.log(`${ws.id} has logged out`);
     },
-  }).get('/*', (res, req) => {
-  /* It does Http as well */
-  res.writeStatus('200 OK').writeHeader('IsExample', 'Yes').end('Hello there!');
-  
-}).listen(HOST, PORT, (token) => {
+  })
+  .get("/*", (res, req) => {
+    /* It does Http as well */
+    res.writeStatus("200 OK").writeHeader("IsExample", "Yes").end("Hello there!");
+  })
+  .listen(HOST, PORT, (token) => {
     token
       ? console.log(`Listening to the specified port ${PORT}`, token)
       : console.log(`Failed to listen to the specified port ${PORT}`, token);
