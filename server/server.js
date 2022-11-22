@@ -92,6 +92,8 @@ class Room {
 
 const decoder = new TextDecoder("utf-8");
 
+console.log("Listening on port", PORT);
+
 const app = uWS
   .App()
   .ws("/", {
