@@ -9,6 +9,12 @@ const CATEGORY_ENUM = Object.freeze({
   SERVER: "SERVER",
   ROOM: "ROOM",
   GAME: "GAME",
+  ACCOUNT: "ACCOUNT",
+});
+
+const ACCOUNT_ENUM = Object.freeze({
+  LOGIN: "LOGIN",
+  LOGOUT: "LOGOUT",
 });
 
 const ROOM_ENUM = Object.freeze({

@@ -2,6 +2,7 @@
 <html>
   <head>
     <link rel="stylesheet" href="./css/typography.css" />
+    <link rel="stylesheet" href="./css/utility.css" />
     <link rel="stylesheet" href="./css/site.css" />
   </head>
   <body>
@@ -9,10 +10,14 @@
       <h5>Ppong</h5>
       <h6>Welcome <span class="h5" id="username-display"></span></h6>
     </header>
-    <div id="landing-screen">
-      <div class="flex-row">
-        <input id="username-input" />
-        <button onclick="login()">Join</button>
+    <div id="landing-screen" class="d-flex justify-center align-center column">
+      <div id="login-card" class="d-flex justify-center align-center column pa-2">
+        <h4 class="uppercase mb-1">The online pong platform</h4>
+        <h5 class="mb-3 uppercase">5123 players online</h5>
+        <div class="flex-row">
+          <input id="username-input" />
+          <button onclick="login()">Join</button>
+        </div>
       </div>
     </div>
     <div id="lobby-screen">
@@ -26,7 +31,7 @@
       <div class="centered-text mt2">
         <h4 id="room-id"></h4>
       </div>
-      <div class="d-flex justify-space-around mt-2 align-items-center">
+      <div class="d-flex justify-space-around mt-2 align-center">
         <h4 id="user-you" style="width: 15rem"></h4>
         <div id="canvas-container"></div>
         <h4 id="user-opponent" style="width: 15rem"></h4>

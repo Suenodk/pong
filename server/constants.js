@@ -12,11 +12,16 @@ const EVENT_TYPE_ENUM = Object.freeze({
   CLIENT_MESSAGE: "CLIENT_MESSAGE",
 });
 
+const ACCOUNT_ENUM = Object.freeze({
+  LOGIN: "LOGIN",
+  LOGOUT: "LOGUT"
+});
 const CATEGORY_ENUM = Object.freeze({
   SERVER: "SERVER",
   ROOM: "ROOM",
   GAME: "GAME",
   ERROR: "ERROR",
+  ACCOUNT: "ACCOUNT"
 });
 const ROOM_ENUM = Object.freeze({
   JOIN_ROOM: "JOIN_ROOM",
@@ -43,4 +48,5 @@ module.exports = {
   ROOM_ENUM,
   GAME_ENUM,
   CATEGORY_ENUM,
+  ACCOUNT_ENUM
 };

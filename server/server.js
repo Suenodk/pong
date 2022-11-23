@@ -1,16 +1,6 @@
-
 const uWS = require("uWebSockets.js");
 const { v4: uuidv4 } = require("uuid");
-const {
-  SCREEN_WIDTH,
-  PORT,
-  HOST,
-  EVENT_TYPE_ENUM,
-  ROOM_ENUM,
-  GAME_COMMANDS,
-  CATEGORY_ENUM,
-  GAME_ENUM,
-} = require("./constants");
+const { SCREEN_WIDTH, PORT, HOST, EVENT_TYPE_ENUM, ROOM_ENUM, GAME_COMMANDS, CATEGORY_ENUM, GAME_ENUM, ACCOUNT_ENUM } = require("./constants");
 const { User } = require("./user");
 const { ServerMessage, ClientMessage, ErrorMessage, SuccesServerMessage } = require("./message");
 const { GameServer } = require("./gameServer");
@@ -50,23 +40,45 @@ const app = uWS
       const selfMessage = new ServerMessage(
         EVENT_TYPE_ENUM.SELF_CONNECTED,
         CATEGORY_ENUM.SERVER,
-        `Welcome ${currentUser.username}`,
+        `Welcome ${currentUser.id}`,
         currentUser.id,
-        {
-          userId: currentUser.id,
-          username: currentUser.username,
-          rooms: gameServer.gameRooms.filter((r) => r !== gameServer.lobbyRoom),
-          users: gameServer.users,
-        }
-      );
-      console.log(`${currentUser.id} has logged in`);
+        currentUser.id);
 
-      ws.send(JSON.stringify(selfMessage));
+        ws.send(JSON.stringify(selfMessage));
     },
     message: (ws, message, isBinary) => {
       const clientMessage = new ClientMessage(JSON.parse(decoder.decode(message)));
 
       switch (clientMessage.category) {
+        // account messages
+        case CATEGORY_ENUM.ACCOUNT: {
+          if (clientMessage.message === ACCOUNT_ENUM.LOGIN) {
+            const user = gameServer.users.find((u) => u.id === clientMessage.senderId);
+
+            if (clientMessage.data !== undefined && clientMessage.data !== "") {
+              user.username = clientMessage.data;
+            }
+
+            gameServer.addUserToLobby(user);
+
+            console.log(`user ${user.username} has joined the server!`);
+
+            const selfMessage = new ServerMessage(
+              EVENT_TYPE_ENUM.CLIENT_MESSAGE,
+              CATEGORY_ENUM.ACCOUNT,
+              ACCOUNT_ENUM.LOGIN,
+              user.id,
+              {
+                userId: user.id,
+                username: user.username,
+                rooms: gameServer.gameRooms.filter((r) => r !== gameServer.lobbyRoom),
+                users: gameServer.users,
+              }
+            );
+            ws.send(JSON.stringify(selfMessage));
+          }
+          break;
+        }
         // room messages
         case CATEGORY_ENUM.ROOM: {
           if (clientMessage.message === ROOM_ENUM.CREATE_ROOM) {
@@ -85,16 +97,13 @@ const app = uWS
             // and also to the creator because he is not in the lobby anymore
             ws.send(JSON.stringify(message));
           } else if (clientMessage.message === ROOM_ENUM.JOIN_ROOM) {
-            const user = gameServer.users.find(u => u.id === clientMessage.senderId);
+            const user = gameServer.users.find((u) => u.id === clientMessage.senderId);
             const room = gameServer.joinRoom(clientMessage.senderId, clientMessage.data);
 
-            const message = new SuccesServerMessage(
-              EVENT_TYPE_ENUM.CLIENT_MESSAGE,
-              CATEGORY_ENUM.ROOM,
-              ROOM_ENUM.JOIN_ROOM,
-              clientMessage.senderId,
-              {user: user, room: room}
-            );
+            const message = new SuccesServerMessage(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ROOM, ROOM_ENUM.JOIN_ROOM, clientMessage.senderId, {
+              user: user,
+              room: room,
+            });
 
             // send the message to everyone in the room
             room.sendMessageToUsersInRoom(message);
@@ -113,8 +122,12 @@ const app = uWS
           // }
 
           // if we move or stop moving we want the gameserver to handle that
-          if(clientMessage.message === GAME_ENUM.MOVE_LEFT || clientMessage.message === GAME_ENUM.MOVE_RIGHT ||
-            clientMessage.message === GAME_ENUM.STOP_MOVE_LEFT || clientMessage.message === GAME_ENUM.STOP_MOVE_RIGHT) {
+          if (
+            clientMessage.message === GAME_ENUM.MOVE_LEFT ||
+            clientMessage.message === GAME_ENUM.MOVE_RIGHT ||
+            clientMessage.message === GAME_ENUM.STOP_MOVE_LEFT ||
+            clientMessage.message === GAME_ENUM.STOP_MOVE_RIGHT
+          ) {
             gameServer.processGameInput(clientMessage.senderId, clientMessage.message);
           }
           break;
@@ -248,9 +261,7 @@ const app = uWS
     res.writeStatus("200 OK").writeHeader("IsExample", "Yes").end("Hello there!");
   })
   .listen(HOST, PORT, (token) => {
-    token
-      ? console.log(`Listening to the specified port ${PORT}`, token)
-      : console.log(`Failed to listen to the specified port ${PORT}`, token);
+    token ? console.log(`Listening to the specified port ${PORT}`, token) : console.log(`Failed to listen to the specified port ${PORT}`, token);
   });
 
 // 322

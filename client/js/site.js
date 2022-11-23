@@ -64,11 +64,8 @@ function navigateToGameRoom(roomId) {
 }
 
 function login() {
-  ws = new WebSocket("wss://server-9i62.onrender.com");
-  // ws = new WebSocket("ws://localhost:3000");
-  ws.addEventListener("open", onOpenConnection);
-  ws.addEventListener("close", onCloseConnection);
-  ws.addEventListener("message", onMessage);
+  const username = document.getElementById("username-input").value;
+  ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ACCOUNT, ACCOUNT_ENUM.LOGIN, clientId, username)));
 }
 
 function displayRooms() {

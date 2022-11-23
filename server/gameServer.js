@@ -17,8 +17,11 @@ class GameServer {
   }
 
   addUser(user) {
-    user.roomId = this.lobbyRoom.id;
     this.users.push(user);
+  }
+
+  addUserToLobby(user) {
+    user.roomId = this.lobbyRoom.id;
     this.#addUserToLobby(user);
   }
 
@@ -133,8 +136,8 @@ class GameServer {
   }
 
   processGameInput(userId, gameEnum) {
-    const user = this.users.find(u => u.id === userId);
-    const room = this.gameRooms.find(r => r.userInRoom(user));
+    const user = this.users.find((u) => u.id === userId);
+    const room = this.gameRooms.find((r) => r.userInRoom(user));
 
     room.processGameInput(user, gameEnum);
   }

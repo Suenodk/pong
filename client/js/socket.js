@@ -2,12 +2,16 @@ let room = "";
 let clientId = "";
 let username = "";
 
-let ws = undefined;
-
 let rooms = [];
 let users = [];
 
 let currentRoom;
+
+ws = new WebSocket("wss://server-9i62.onrender.com");
+// const ws = new WebSocket("ws://localhost:3000");
+ws.addEventListener("open", onOpenConnection);
+ws.addEventListener("close", onCloseConnection);
+ws.addEventListener("message", onMessage);
 
 function onOpenConnection() {
   console.log("connected to server!");
@@ -20,6 +24,19 @@ function onMessage(event) {
   switch (message.eventType) {
     case EVENT_TYPE_ENUM.CLIENT_MESSAGE:
       switch (message.category) {
+        case CATEGORY_ENUM.ACCOUNT: {
+          if (message.message === ACCOUNT_ENUM.LOGIN) {
+            username = message.data.username;
+            rooms = message.data.rooms;
+            users = message.data.users;
+            document.getElementById("landing-screen").style.display = "none";
+            document.getElementById("lobby-screen").style.display = "flex";
+            document.getElementById("username-display").innerHTML = username;
+            document.getElementsByTagName("header")[0].style.display = "flex";
+            displayRooms();
+          }
+          break;
+        }
         case CATEGORY_ENUM.ROOM: {
           if (message.message === ROOM_ENUM.CREATE_ROOM) {
             // we know that if the user id is our id we created the room
@@ -77,11 +94,11 @@ function onMessage(event) {
           }
         }
         case CATEGORY_ENUM.GAME: {
-          if(message.message === GAME_ENUM.UPDATE_GAME) {
+          if (message.message === GAME_ENUM.UPDATE_GAME) {
             // we want to render the users paddle always as the bottom paddle
             // so if we are the bottompaddle we set the bottompaddle to the bottompaddle location
             // otherwise we set the bottompaddle to the toppaddle location
-            if(clientId === message.data.bottomPaddle.user.id) {
+            if (clientId === message.data.bottomPaddle.user.id) {
               bottomPaddle.graphics.x = message.data.bottomPaddle.x;
               topPaddle.graphics.x = message.data.topPaddle.x;
             } else {
@@ -100,14 +117,7 @@ function onMessage(event) {
       break;
     case EVENT_TYPE_ENUM.SELF_CONNECTED:
       // the login was successful and we can go to the lobby screen
-      clientId = message.data.userId;
-      username = message.data.username;
-      rooms = message.data.rooms;
-      users = message.data.users;
-      document.getElementById("landing-screen").style.display = "none";
-      document.getElementById("lobby-screen").style.display = "flex";
-      document.getElementById("username-display").innerHTML = username;
-      displayRooms();
+      clientId = message.data;
       break;
     default:
       square.x = msg.x;
