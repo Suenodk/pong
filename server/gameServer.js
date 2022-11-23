@@ -1,6 +1,6 @@
 const { Room } = require("./room");
 const { v4: uuidv4 } = require("uuid");
-const { FRAME_RATE, EVENT_TYPE_ENUM, CATEGORY_ENUM, ROOM_ENUM } = require("./constants");
+const { FRAME_RATE, EVENT_TYPE_ENUM, CATEGORY_ENUM, ROOM_ENUM, GAME_ENUM } = require("./constants");
 const { ServerMessage } = require("./message");
 
 class GameServer {
@@ -47,7 +47,6 @@ class GameServer {
     this.#removeUserFromRoom(user);
     room.addUser(user);
     this.gameRooms.push(room);
-    this.updateRoom(roomId);
 
     return room;
   }
@@ -73,17 +72,9 @@ class GameServer {
     if (currentRoom.users.length === 0) {
       const index = this.gameRooms.indexOf(currentRoom);
       this.gameRooms.splice(index, 1);
-      this.sendMessageToLobbyRoom(
-        new ServerMessage(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ROOM, ROOM_ENUM.DELETE_ROOM, "", currentRoom.id)
-      );
+      this.sendMessageToLobbyRoom(new ServerMessage(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ROOM, ROOM_ENUM.DELETE_ROOM, "", currentRoom.id));
     } else {
-      const message = new ServerMessage(
-        EVENT_TYPE_ENUM.CLIENT_MESSAGE,
-        CATEGORY_ENUM.ROOM,
-        ROOM_ENUM.LEAVE_ROOM,
-        "",
-        user.id
-      );
+      const message = new ServerMessage(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ROOM, ROOM_ENUM.LEAVE_ROOM, "", user.id);
       currentRoom.sendMessageToUsersInRoom(message);
     }
   }
@@ -99,6 +90,10 @@ class GameServer {
     this.#removeUserFromRoom(user);
     room.addUser(user);
 
+    if (room != this.lobbyRoom && room.users.length === 2) {
+      this.startRoom(room);
+    }
+
     return room;
   }
 
@@ -112,24 +107,36 @@ class GameServer {
     }
   }
 
-  updateRoom(roomId) {
+  startRoom(room) {
+    let counter = 3;
     const intervalId = setInterval(() => {
-      const currentRoom = this.gameRooms.find((r) => r.roomId === roomId);
+      const startRoomMessage = new ServerMessage(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.START_GAME, "", counter);
 
-      if (currentRoom !== undefined) {
-        currentRoom.gameState.update();
-        serverMsg = {
-          type: EVENT_TYPE_ENUM.CLIENT_MESSAGE,
-          sender: "SERVER",
-          room: currentRoom.roomId,
-          body: { gameState: currentRoom.gameState },
-        };
+      room.sendMessageToUsersInRoom(startRoomMessage);
 
-        currentRoom.users.forEach((u) => {
-          u.socket.send(EVENT_TYPE_ENUM.CLIENT_MESSAGE, JSON.stringify(serverMsg));
-        });
+      counter--;
+
+      if (counter === 0) {
+        this.updateRoom(room);
+        clearInterval(intervalId);
       }
+    }, 1500);
+  }
+
+  updateRoom(room) {
+    room.startGame();
+    const intervalId = setInterval(() => {
+      room.updateGame();
+      const updateGameMessage = new ServerMessage(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.UPDATE_GAME, "", room.gameState);
+      room.sendMessageToUsersInRoom(updateGameMessage);
     }, 1000 / FRAME_RATE);
+  }
+
+  processGameInput(userId, gameEnum) {
+    const user = this.users.find(u => u.id === userId);
+    const room = this.gameRooms.find(r => r.userInRoom(user));
+
+    room.processGameInput(user, gameEnum);
   }
 }
 

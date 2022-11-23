@@ -6,46 +6,21 @@ document.getElementById("canvas-container").appendChild(app.view);
 
 const bottomPaddle = new Paddle(screenWidth / 2 - 100, screenHeight - 50);
 const topPaddle = new Paddle(screenWidth / 2 - 100, 30);
-const ball = new Ball(screenWidth/2, screenHeight/2);
+const ball = new Ball(screenWidth / 2, screenHeight / 2);
 
 app.ticker.add((delta) => {
   // topPaddle.update();
   // bottomPaddle.update();
 });
 
-// square.on("mousedown", function (e) {
-//   ws.send(
-//     JSON.stringify({
-//       type: MESSAGE_ENUM.CLIENT_MESSAGE,
-//       room: room,
-//       clientId: clientId,
-//       body: { GAME_UPDATE: GAME_UPDATE.MOVE_LEFT },
-//     })
-//   );
-// });
-
 onkeydown = (e) => {
   switch (e.key.toUpperCase()) {
     case "ARROWLEFT": {
-      ws.send(
-        JSON.stringify({
-          type: MESSAGE_ENUM.CLIENT_MESSAGE,
-          room: room,
-          clientId: clientId,
-          body: { GAME_UPDATE: GAME_UPDATE.MOVE_LEFT },
-        })
-      );
+      ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.MOVE_LEFT, clientId)));
       break;
     }
     case "ARROWRIGHT": {
-      ws.send(
-        JSON.stringify({
-          type: MESSAGE_ENUM.CLIENT_MESSAGE,
-          room: room,
-          clientId: clientId,
-          body: { GAME_UPDATE: GAME_UPDATE.MOVE_RIGHT },
-        })
-      );
+      ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.MOVE_RIGHT, clientId)));
       break;
     }
   }
@@ -54,25 +29,11 @@ onkeydown = (e) => {
 onkeyup = (e) => {
   switch (e.key.toUpperCase()) {
     case "ARROWLEFT": {
-      ws.send(
-        JSON.stringify({
-          type: MESSAGE_ENUM.CLIENT_MESSAGE,
-          room: room,
-          clientId: clientId,
-          body: { GAME_UPDATE: GAME_UPDATE.STOP_MOVE_LEFT },
-        })
-      );
+      ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.STOP_MOVE_LEFT, clientId)));
       break;
     }
     case "ARROWRIGHT": {
-      ws.send(
-        JSON.stringify({
-          type: MESSAGE_ENUM.CLIENT_MESSAGE,
-          room: room,
-          clientId: clientId,
-          body: { GAME_UPDATE: GAME_UPDATE.STOP_MOVE_RIGHT },
-        })
-      );
+      ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.STOP_MOVE_RIGHT, clientId)));
       break;
     }
   }
@@ -91,9 +52,7 @@ function joinRoom() {
 }
 
 function createRoom() {
-  ws.send(
-    JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ROOM, ROOM_ENUM.CREATE_ROOM, clientId))
-  );
+  ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ROOM, ROOM_ENUM.CREATE_ROOM, clientId)));
 }
 
 function navigateToGameRoom(roomId) {
@@ -107,9 +66,9 @@ function navigateToGameRoom(roomId) {
 function login() {
   ws = new WebSocket("wss://server-9i62.onrender.com");
   // ws = new WebSocket("ws://localhost:3000");
-  ws.addEventListener('open', onOpenConnection);
-  ws.addEventListener('close', onCloseConnection);
-  ws.addEventListener('message', onMessage);
+  ws.addEventListener("open", onOpenConnection);
+  ws.addEventListener("close", onCloseConnection);
+  ws.addEventListener("message", onMessage);
 }
 
 function displayRooms() {
@@ -119,7 +78,7 @@ function displayRooms() {
     parent.removeChild(parent.lastChild);
   }
 
-  rooms.forEach(r => {
+  rooms.forEach((r) => {
     const roomElement = document.createElement("li");
     const roomDisplay = document.createElement("div");
     const roomButton = document.createElement("button");
@@ -128,10 +87,8 @@ function displayRooms() {
     roomButton.innerHTML = "Join";
     roomButton.onclick = () => {
       // sending a message that we are joining the room
-      ws.send(
-        JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ROOM, ROOM_ENUM.JOIN_ROOM, clientId, r.id))
-      );
-    }
+      ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ROOM, ROOM_ENUM.JOIN_ROOM, clientId, r.id)));
+    };
 
     roomElement.appendChild(roomDisplay);
     roomElement.appendChild(roomButton);

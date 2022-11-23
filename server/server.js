@@ -1,3 +1,4 @@
+
 const uWS = require("uWebSockets.js");
 const { v4: uuidv4 } = require("uuid");
 const {
@@ -6,68 +7,15 @@ const {
   HOST,
   EVENT_TYPE_ENUM,
   ROOM_ENUM,
-  GAME_UPDATE,
   GAME_COMMANDS,
   CATEGORY_ENUM,
+  GAME_ENUM,
 } = require("./constants");
 const { User } = require("./user");
 const { ServerMessage, ClientMessage, ErrorMessage, SuccesServerMessage } = require("./message");
 const { GameServer } = require("./gameServer");
 
 const gameServer = new GameServer();
-
-class Paddle {
-  x;
-  velocityX;
-  left = false;
-  right = false;
-  constructor(x) {
-    this.x = x;
-  }
-
-  update() {
-    if (this.left) {
-      this.velocityX = -3;
-    } else if (this.right) {
-      this.velocityX = 3;
-    } else {
-      this.velocityX = 0;
-    }
-
-    this.x += this.velocityX;
-  }
-
-  moveLeft() {
-    this.left = true;
-  }
-
-  moveRight() {
-    this.right = true;
-  }
-
-  stopMoveLeft() {
-    this.left = false;
-  }
-
-  stopMoveRight() {
-    this.right = false;
-  }
-}
-
-class GameState {
-  topPaddle;
-  bottomPaddle;
-
-  constructor() {
-    this.topPaddle = new Paddle(SCREEN_WIDTH / 2 - 100);
-    this.bottomPaddle = new Paddle(SCREEN_WIDTH / 2 - 100);
-  }
-
-  update() {
-    this.topPaddle.update();
-    this.bottomPaddle.update();
-  }
-}
 
 const decoder = new TextDecoder("utf-8");
 
@@ -119,6 +67,7 @@ const app = uWS
       const clientMessage = new ClientMessage(JSON.parse(decoder.decode(message)));
 
       switch (clientMessage.category) {
+        // room messages
         case CATEGORY_ENUM.ROOM: {
           if (clientMessage.message === ROOM_ENUM.CREATE_ROOM) {
             const room = gameServer.createRoom(clientMessage.senderId);
@@ -156,8 +105,19 @@ const app = uWS
           }
           break;
         }
+        // game messages
         case CATEGORY_ENUM.GAME: {
+          // this will be used when we want to let the user start the game
+          // right now the game will start when a room in the server is full
+          // if(clientMessage.message === GAME_ENUM.START_GAME) {
+          // }
 
+          // if we move or stop moving we want the gameserver to handle that
+          if(clientMessage.message === GAME_ENUM.MOVE_LEFT || clientMessage.message === GAME_ENUM.MOVE_RIGHT ||
+            clientMessage.message === GAME_ENUM.STOP_MOVE_LEFT || clientMessage.message === GAME_ENUM.STOP_MOVE_RIGHT) {
+            gameServer.processGameInput(clientMessage.senderId, clientMessage.message);
+          }
+          break;
         }
       }
 

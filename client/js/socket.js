@@ -76,6 +76,20 @@ function onMessage(event) {
             }
           }
         }
+        case CATEGORY_ENUM.GAME: {
+          if(message.message === GAME_ENUM.UPDATE_GAME) {
+            // we want to render the users paddle always as the bottom paddle
+            // so if we are the bottompaddle we set the bottompaddle to the bottompaddle location
+            // otherwise we set the bottompaddle to the toppaddle location
+            if(clientId === message.data.bottomPaddle.user.id) {
+              bottomPaddle.graphics.x = message.data.bottomPaddle.x;
+              topPaddle.graphics.x = message.data.topPaddle.x;
+            } else {
+              topPaddle.graphics.x = message.data.bottomPaddle.x;
+              bottomPaddle.graphics.x = message.data.topPaddle.x;
+            }
+          }
+        }
       }
       break;
     case EVENT_TYPE_ENUM.CLIENT_CONNECTED:
