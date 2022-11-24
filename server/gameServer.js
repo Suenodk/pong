@@ -142,6 +142,10 @@ class GameServer {
     const user = this.users.find((u) => u.id === userId);
     const room = this.gameRooms.find((r) => r.userInRoom(user));
 
+    // user is not in a game room, we don't need to proces anything
+    if(room === undefined)
+      return;
+
     room.processGameInput(user, gameEnum);
   }
 }

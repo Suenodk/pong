@@ -1,5 +1,7 @@
 const screenWidth = 600;
 const screenHeight = 800;
+let canvasRectangle = document.getElementById("canvas-container").getBoundingClientRect();
+console.log(canvasRectangle);
 
 let app = new PIXI.Application({ width: screenWidth, height: screenHeight });
 document.getElementById("canvas-container").appendChild(app.view);
@@ -29,6 +31,34 @@ onkeydown = (e) => {
     }
   }
 };
+
+document.addEventListener("touchstart", (e) => {
+  for (let i = 0; i < e.targetTouches.length; i++) {
+    if (e.targetTouches[i].clientX < canvasRectangle.left + bottomPaddle.graphics.x) {
+      ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.MOVE_LEFT, clientId)));
+    } else {
+      ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.MOVE_RIGHT, clientId)));
+    }
+  }
+});
+
+document.addEventListener("touchmove", (e) => {
+  for (let i = 0; i < e.targetTouches.length; i++) {
+    if (e.targetTouches[i].clientX < canvasRectangle.left + bottomPaddle.graphics.x) {
+      console.log(canvasRectangle);
+      ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.STOP_MOVE_RIGHT, clientId)));
+      ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.MOVE_LEFT, clientId)));
+    } else {
+      ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.STOP_MOVE_LEFT, clientId)));
+      ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.MOVE_RIGHT, clientId)));
+    }
+  }
+});
+
+document.addEventListener("touchend", (e) => {
+  ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.STOP_MOVE_LEFT, clientId)));
+  ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.STOP_MOVE_RIGHT, clientId)));
+});
 
 onkeyup = (e) => {
   switch (e.key.toUpperCase()) {
@@ -65,6 +95,7 @@ function navigateToGameRoom(roomId) {
   document.getElementById("room-id").innerHTML = roomId;
   document.getElementById("user-you").innerHTML = username;
   document.getElementsByTagName("header")[0].style.display = "none";
+  canvasRectangle = document.getElementById("canvas-container").getBoundingClientRect();
 }
 
 function login() {
