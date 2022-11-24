@@ -61,3 +61,27 @@
 .row {
     flex-direction: row;
 }
+
+.weight-500 {
+  font-weight: 500;
+}
+
+.weight-300 {
+  font-weight: 300;
+}
+
+button.primary {
+  background-color: var(--primary-color);
+}
+
+button.primary:hover {
+  background-color: var(--primary-color-darken);
+}
+
+.clickable:hover {
+  cursor: pointer;
+}
+
+button:hover {
+  cursor: pointer;
+}

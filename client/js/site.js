@@ -9,8 +9,12 @@ const topPaddle = new Paddle(screenWidth / 2 - 100, 30);
 const ball = new Ball(screenWidth / 2, screenHeight / 2);
 
 app.ticker.add((delta) => {
-  // topPaddle.update();
-  // bottomPaddle.update();
+  if (currentCountdownNumber !== undefined) {
+    currentCountdownNumber.style.fontSize -= 2.5;
+    if (currentCountdownNumber.style.fontSize <= 0) {
+      app.stage.removeChild(currentCountdownNumber);
+    }
+  }
 });
 
 onkeydown = (e) => {

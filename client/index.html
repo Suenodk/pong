@@ -12,16 +12,18 @@
     </header>
     <div id="landing-screen" class="d-flex justify-center align-center column">
       <div id="login-card" class="d-flex justify-center align-center column pa-2">
-        <h4 class="uppercase mb-1">The online pong platform</h4>
-        <h5 class="mb-3 uppercase">5123 players online</h5>
-        <div class="flex-row">
-          <input id="username-input" />
-          <button onclick="login()">Join</button>
+        <h4 class="uppercase mb-3 weight-300">The online pong platform</h4>
+        <div class="d-flex column">
+          <div class="flex-row">
+            <input id="username-input" />
+            <button class="primary" onclick="login()">Join</button>
+          </div>
+          <p class="uppercase">Leave empty to stay anonymous</p>
         </div>
       </div>
     </div>
     <div id="lobby-screen">
-      <button class="mt-1" id="create-room-button" onclick="createRoom()">Create new room</button>
+      <button class="mt-1 primary" id="create-room-button" onclick="createRoom()">Create new room</button>
 
       <h5 class="mt-1">124 players online</h5>
 

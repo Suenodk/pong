@@ -5,6 +5,8 @@ let username = "";
 let rooms = [];
 let users = [];
 
+let currentCountdownNumber;
+
 let currentRoom;
 
 ws = new WebSocket("wss://server-9i62.onrender.com");
@@ -94,7 +96,21 @@ function onMessage(event) {
           }
         }
         case CATEGORY_ENUM.GAME: {
-          if (message.message === GAME_ENUM.UPDATE_GAME) {
+          if(message.message === GAME_ENUM.START_GAME) {
+            if(currentCountdownNumber !== undefined) {
+              app.stage.removeChild(currentCountdownNumber);
+            }
+            currentCountdownNumber = new PIXI.Text(message.data, {
+              fontFamily: 'Arial',
+              fontSize: 256,
+              fill: 0xffffff,
+              align: 'center',
+          });
+          currentCountdownNumber.x = screenWidth / 2;
+          currentCountdownNumber.y = screenHeight / 2;
+          currentCountdownNumber.anchor.set(0.5);
+          app.stage.addChild(currentCountdownNumber);
+          } else if (message.message === GAME_ENUM.UPDATE_GAME) {
             // we want to render the users paddle always as the bottom paddle
             // so if we are the bottompaddle we set the bottompaddle to the bottompaddle location
             // otherwise we set the bottompaddle to the toppaddle location

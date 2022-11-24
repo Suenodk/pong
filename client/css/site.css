@@ -1,18 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&display=swap');
 
 :root {
-  --text-light: #E6E6E6;
+  --text-light: #b3b3b3;
+  --primary-color: #452685;
+  --primary-color-darken: #3d2273;
 }
 
 body {
   margin: 0;
   overflow: hidden;
-  background-color: #121212;
+  background-color: #0d0d0d;
   font-family: 'Montserrat', sans-serif;
-}
-
-button:hover {
-  cursor: pointer;
+  color: var(--text-light);
 }
 
 #canvas-container {
@@ -40,14 +39,6 @@ header {
   place-items: center;
 }
 
-.clickable:hover {
-  cursor: pointer;
-}
-
-#landing-screen {
-  height: calc(100vh - 4rem - 2rem);
-}
-
 .flex-row {
   display: flex;
   flex-direction: row;
@@ -70,7 +61,7 @@ input {
   border: none;
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
-  background-color: #343040;
+  background-color: #333333;
   color: var(--text-light);
   padding: 0.5rem 0.75rem;
   outline: none;
@@ -80,7 +71,6 @@ input {
 }
 
 #username-input + button {
-  background-color: #5e0fff;
   border: none;
   outline: none;
   text-transform: uppercase;
@@ -91,10 +81,6 @@ input {
   border-bottom-right-radius: 3px;
   padding: 0px 0.75rem;
   font-size: 1.1rem;
-}
-
-#username-input + button:hover {
-  background-color: #560ee6;
 }
 
 #rooms li {
@@ -128,21 +114,15 @@ input {
 }
 
 #create-room-button {
-  background-color: #5e0fff;
   border: none;
   outline: none;
   text-transform: uppercase;
   color: var(--text-light);
   letter-spacing: 0.1rem;
   font-weight: 600;
-  border-top-right-radius: 3px;
-  border-bottom-right-radius: 3px;
+  border-radius: 3px;
   padding: 0.5rem 0.75rem;
   font-size: 1.5rem;
-}
-
-#create-room-button:hover {
-  background-color: #560ee6;
 }
 
 #rooms .room-full div+button {
@@ -150,6 +130,11 @@ input {
   color: #808080;
 }
 
+#landing-screen {
+  height: 100vh;
+}
+
 #login-card {
-  background-color: #212129;
+  border-radius: 5px;
+  background-color: #191919;
 }
