@@ -1,18 +1,23 @@
 class Paddle {
   x;
+  y;
   velocityX;
   left = false;
   right = false;
+  width;
+  height;
   user;
-  constructor(x) {
+  speed;
+  constructor(x, y) {
     this.x = x;
+    this.y = y;
   }
 
   update() {
     if (this.left) {
-      this.velocityX = -3;
+      this.velocityX = -this.speed;
     } else if (this.right) {
-      this.velocityX = 3;
+      this.velocityX = this.speed;
     } else {
       this.velocityX = 0;
     }

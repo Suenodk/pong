@@ -8,6 +8,8 @@ class Paddle {
     this.graphics.x = x;
     this.graphics.y = y;
     this.graphics.interactive = true;
+    this.graphics.pivot.x = 100;
+    this.graphics.pivot.y = 10;
     app.stage.addChild(this.graphics);
   }
 }

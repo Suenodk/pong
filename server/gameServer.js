@@ -115,15 +115,18 @@ class GameServer {
     const intervalId = setInterval(() => {
       const startRoomMessage = new ServerMessage(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.START_GAME, "", counter);
 
-      room.sendMessageToUsersInRoom(startRoomMessage);
+      // send the numbers 3, 2 and 1 to the client to render
+      if(counter > 0)
+        room.sendMessageToUsersInRoom(startRoomMessage);
 
       counter--;
 
-      if (counter === 0) {
+      // then we wait another interval till the game starts
+      if (counter === -1) {
         this.updateRoom(room);
         clearInterval(intervalId);
       }
-    }, 1500);
+    }, 1000);
   }
 
   updateRoom(room) {

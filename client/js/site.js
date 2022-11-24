@@ -4,8 +4,8 @@ const screenHeight = 800;
 let app = new PIXI.Application({ width: screenWidth, height: screenHeight });
 document.getElementById("canvas-container").appendChild(app.view);
 
-const bottomPaddle = new Paddle(screenWidth / 2 - 100, screenHeight - 50);
-const topPaddle = new Paddle(screenWidth / 2 - 100, 30);
+const bottomPaddle = new Paddle(screenWidth / 2, screenHeight - 40);
+const topPaddle = new Paddle(screenWidth / 2, 40);
 const ball = new Ball(screenWidth / 2, screenHeight / 2);
 
 app.ticker.add((delta) => {
