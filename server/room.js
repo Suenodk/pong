@@ -4,6 +4,7 @@ class Room {
   id;
   name;
   users = [];
+  abandoned;
   // lobby room now also has a gamestate, we want to apply this only to game rooms later on
   gameState;
 

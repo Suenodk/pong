@@ -75,6 +75,10 @@ class GameServer {
     if (currentRoom.users.length === 0) {
       const index = this.gameRooms.indexOf(currentRoom);
       this.gameRooms.splice(index, 1);
+      // first we check if we have an ongoing game if we do then we want to mark the game to be destroyed
+      if(currentRoom.gameState !== undefined) {
+        currentRoom.abandoned = true;
+      }
       this.sendMessageToLobbyRoom(new ServerMessage(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ROOM, ROOM_ENUM.DELETE_ROOM, "", currentRoom.id));
     } else {
       const message = new ServerMessage(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ROOM, ROOM_ENUM.LEAVE_ROOM, "", user.id);
@@ -133,6 +137,9 @@ class GameServer {
     room.startGame();
     const intervalId = setInterval(() => {
       room.updateGame();
+      if(room.abandoned) {
+        clearInterval(intervalId);
+      }
       const updateGameMessage = new ServerMessage(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.UPDATE_GAME, "", room.gameState);
       room.sendMessageToUsersInRoom(updateGameMessage);
     }, 1000 / FRAME_RATE);

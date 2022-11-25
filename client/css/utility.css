@@ -70,8 +70,21 @@
   font-weight: 300;
 }
 
+.weight-400 {
+  font-weight: 400;
+}
+
+.weight-600 {
+  font-weight: 600;
+}
+
+input {
+  flex-grow: 1;
+}
+
 button.primary {
   background-color: var(--primary-color);
+  color: var(--text-light);
 }
 
 button.primary:hover {
@@ -84,4 +97,34 @@ button.primary:hover {
 
 button:hover {
   cursor: pointer;
+}
+
+/* xs */
+@media (width <= 600px) {
+  .px-xs-5 {
+    padding: 0 5rem;
+  }
+}
+
+/* sm */
+@media (600px <= width <= 960px) {
+}
+
+/* md */
+@media (960px <= width <= 1280px) {
+}
+
+/* lg */
+@media (1280px <= width <= 1920px) {
+  .px-lg-5 {
+    padding: 0 5rem;
+  }
+
+  .mx-lg-5 {
+    margin: 0 5rem;
+  }
+  
+  .mx-lg-auto {
+    margin: 0 auto;
+  }
 }
