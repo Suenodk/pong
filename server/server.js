@@ -37,14 +37,12 @@ const app = uWS
       currentUser.subscribeToMessages();
       gameServer.addUser(currentUser);
 
-      const selfMessage = new ServerMessage(
-        EVENT_TYPE_ENUM.SELF_CONNECTED,
-        CATEGORY_ENUM.SERVER,
-        `Welcome ${currentUser.id}`,
-        currentUser.id,
-        currentUser.id);
+      const selfMessage = new ServerMessage(EVENT_TYPE_ENUM.SELF_CONNECTED, CATEGORY_ENUM.SERVER, `Welcome ${currentUser.id}`, currentUser.id, {
+        clientId: currentUser.id,
+        usersOnline: gameServer.users.length,
+      });
 
-        ws.send(JSON.stringify(selfMessage));
+      ws.send(JSON.stringify(selfMessage));
     },
     message: (ws, message, isBinary) => {
       const clientMessage = new ClientMessage(JSON.parse(decoder.decode(message)));
@@ -63,18 +61,12 @@ const app = uWS
 
             console.log(`user ${user.username} has joined the server!`);
 
-            const selfMessage = new ServerMessage(
-              EVENT_TYPE_ENUM.CLIENT_MESSAGE,
-              CATEGORY_ENUM.ACCOUNT,
-              ACCOUNT_ENUM.LOGIN,
-              user.id,
-              {
-                userId: user.id,
-                username: user.username,
-                rooms: gameServer.gameRooms.filter((r) => r !== gameServer.lobbyRoom),
-                users: gameServer.users,
-              }
-            );
+            const selfMessage = new ServerMessage(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ACCOUNT, ACCOUNT_ENUM.LOGIN, user.id, {
+              userId: user.id,
+              username: user.username,
+              rooms: gameServer.gameRooms.filter((r) => r !== gameServer.lobbyRoom),
+              users: gameServer.users,
+            });
             ws.send(JSON.stringify(selfMessage));
           }
           break;

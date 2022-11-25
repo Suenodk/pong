@@ -138,7 +138,8 @@ function onMessage(event) {
       break;
     case EVENT_TYPE_ENUM.SELF_CONNECTED:
       // the login was successful and we can go to the lobby screen
-      clientId = message.data;
+      clientId = message.data.clientId;
+      document.getElementById("users-online").innerHTML = `${message.data.usersOnline} users online`;
       break;
     default:
       square.x = msg.x;

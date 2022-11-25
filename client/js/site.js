@@ -6,6 +6,12 @@ console.log(canvasRectangle);
 let app = new PIXI.Application({ width: screenWidth, height: screenHeight });
 document.getElementById("canvas-container").appendChild(app.view);
 
+const usernameInput = (document.getElementById("username-input").onkeydown = (e) => {
+  if (e.key.toUpperCase() === "ENTER") {
+    login();
+  }
+});
+
 const bottomPaddle = new Paddle(screenWidth / 2, screenHeight - 40);
 const topPaddle = new Paddle(screenWidth / 2, 40);
 const ball = new Ball(screenWidth / 2, screenHeight / 2);
@@ -112,17 +118,27 @@ function displayRooms() {
 
   rooms.forEach((r) => {
     const roomElement = document.createElement("li");
-    const roomDisplay = document.createElement("div");
+    const roomDisplayWrapper = document.createElement("div");
     const roomButton = document.createElement("button");
+    const roomName = document.createElement("span");
+    const roomUsers = document.createElement("span");
 
-    roomDisplay.innerHTML = r.name;
-    roomButton.innerHTML = "Join";
+    const joinText = r.users.length === 2 ? "Full" : "Join";
+    const buttonClass = r.users.length === 2 ? "error" : "success";
+    roomName.innerHTML = r.name;
+
+    roomUsers.innerHTML = `${r.users.length}/2`;
+    roomButton.innerHTML = joinText;
+    roomButton.classList.add(buttonClass);
     roomButton.onclick = () => {
       // sending a message that we are joining the room
       ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ROOM, ROOM_ENUM.JOIN_ROOM, clientId, r.id)));
     };
 
-    roomElement.appendChild(roomDisplay);
+    roomDisplayWrapper.classList.add("d-flex", "justify-space-between");
+    roomDisplayWrapper.appendChild(roomName);
+    roomDisplayWrapper.appendChild(roomUsers);
+    roomElement.appendChild(roomDisplayWrapper);
     roomElement.appendChild(roomButton);
     parent.appendChild(roomElement);
   });
