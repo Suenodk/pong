@@ -1,5 +1,9 @@
 const screenWidth = 600;
 const screenHeight = 800;
+
+let touchX = undefined;
+const touchBuffer = 5;
+
 let canvasRectangle = document.getElementById("canvas-container").getBoundingClientRect();
 console.log(canvasRectangle);
 
@@ -17,6 +21,21 @@ const topPaddle = new Paddle(screenWidth / 2, 40);
 const ball = new Ball(screenWidth / 2, screenHeight / 2);
 
 app.ticker.add((delta) => {
+  if (touchX !== undefined) {
+    if (touchX < bottomPaddle.graphics.x - touchBuffer) {
+      ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.MOVE_LEFT, clientId)));
+      ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.STOP_MOVE_RIGHT, clientId)));
+    } else if (touchX > bottomPaddle.graphics.x + touchBuffer) {
+      ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.MOVE_RIGHT, clientId)));
+      ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.STOP_MOVE_LEFT, clientId)));
+    } else {
+      ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.STOP_MOVE_LEFT, clientId)));
+      ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.STOP_MOVE_RIGHT, clientId)));
+    }
+  } else {
+    ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.STOP_MOVE_LEFT, clientId)));
+    ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.STOP_MOVE_RIGHT, clientId)));
+  }
   if (currentCountdownNumber !== undefined) {
     currentCountdownNumber.style.fontSize -= 2.5;
     if (currentCountdownNumber.style.fontSize <= 0) {
@@ -40,30 +59,18 @@ onkeydown = (e) => {
 
 document.addEventListener("touchstart", (e) => {
   for (let i = 0; i < e.targetTouches.length; i++) {
-    if (e.targetTouches[i].clientX < canvasRectangle.left + bottomPaddle.graphics.x) {
-      ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.MOVE_LEFT, clientId)));
-    } else {
-      ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.MOVE_RIGHT, clientId)));
-    }
+    touchX = e.targetTouches[i].clientX - canvasRectangle.left;
   }
 });
 
 document.addEventListener("touchmove", (e) => {
   for (let i = 0; i < e.targetTouches.length; i++) {
-    if (e.targetTouches[i].clientX < canvasRectangle.left + bottomPaddle.graphics.x) {
-      console.log(canvasRectangle);
-      ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.STOP_MOVE_RIGHT, clientId)));
-      ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.MOVE_LEFT, clientId)));
-    } else {
-      ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.STOP_MOVE_LEFT, clientId)));
-      ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.MOVE_RIGHT, clientId)));
-    }
+    touchX = e.targetTouches[i].clientX - canvasRectangle.left;
   }
 });
 
 document.addEventListener("touchend", (e) => {
-  ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.STOP_MOVE_LEFT, clientId)));
-  ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.STOP_MOVE_RIGHT, clientId)));
+  touchX = undefined;
 });
 
 onkeyup = (e) => {
