@@ -23,6 +23,7 @@ const ROOM_ENUM = Object.freeze({
   CREATE_ROOM: "CREATE_ROOM",
   LEAVE_ROOM: "LEAVE_ROOM",
   DELETE_ROOM: "DELETE_ROOM",
+  JOIN_LOBBY: "JOIN_LOBBY"
 });
 
 const GAME_ENUM = Object.freeze({

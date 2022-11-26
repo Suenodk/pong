@@ -76,7 +76,7 @@ class GameServer {
       const index = this.gameRooms.indexOf(currentRoom);
       this.gameRooms.splice(index, 1);
       // first we check if we have an ongoing game if we do then we want to mark the game to be destroyed
-      if(currentRoom.gameState !== undefined) {
+      if (currentRoom.gameState !== undefined) {
         currentRoom.abandoned = true;
       }
       this.sendMessageToLobbyRoom(new ServerMessage(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ROOM, ROOM_ENUM.DELETE_ROOM, "", currentRoom.id));
@@ -120,8 +120,7 @@ class GameServer {
       const startRoomMessage = new ServerMessage(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.START_GAME, "", counter);
 
       // send the numbers 3, 2 and 1 to the client to render
-      if(counter > 0)
-        room.sendMessageToUsersInRoom(startRoomMessage);
+      if (counter > 0) room.sendMessageToUsersInRoom(startRoomMessage);
 
       counter--;
 
@@ -137,11 +136,31 @@ class GameServer {
     room.startGame();
     const intervalId = setInterval(() => {
       room.updateGame();
-      if(room.abandoned) {
+      if (room.abandoned) {
         clearInterval(intervalId);
       }
-      const updateGameMessage = new ServerMessage(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.UPDATE_GAME, "", room.gameState);
-      room.sendMessageToUsersInRoom(updateGameMessage);
+
+      if (room.gameState.finished) {
+        // the rooms we want to show the users are all the rooms except the lobby room and the room which is just finished
+        const backToLobbyRoomMessage = new ServerMessage(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ROOM, ROOM_ENUM.JOIN_LOBBY, "", {
+          rooms: this.gameRooms.filter((r) => r !== this.lobbyRoom && r !== room),
+          users: this.users,
+        });
+
+        room.sendMessageToUsersInRoom(backToLobbyRoomMessage);
+
+        // move the players back into the lobby room and clear the interval
+        room.users.forEach((u) => {
+          this.#removeUserFromRoom(u);
+          this.#addUserToLobby(u);
+        });
+
+        clearInterval(intervalId);
+      } else {
+        // if the game is not finished then we want to send an update to the users
+        const updateGameMessage = new ServerMessage(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.UPDATE_GAME, "", room.gameState);
+        room.sendMessageToUsersInRoom(updateGameMessage);
+      }
     }, 1000 / FRAME_RATE);
   }
 
@@ -150,8 +169,7 @@ class GameServer {
     const room = this.gameRooms.find((r) => r.userInRoom(user));
 
     // user is not in a game room, we don't need to proces anything
-    if(room === undefined)
-      return;
+    if (room === undefined) return;
 
     room.processGameInput(user, gameEnum);
   }

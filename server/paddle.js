@@ -8,6 +8,7 @@ class Paddle {
   height;
   user;
   speed;
+  score = 0;
   constructor(x, y) {
     this.x = x;
     this.y = y;

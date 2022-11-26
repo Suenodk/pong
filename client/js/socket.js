@@ -5,6 +5,8 @@ let username = "";
 let messages = [];
 let rooms = [];
 let users = [];
+let ourScore;
+let theirScore;
 
 let currentCountdownNumber;
 
@@ -41,7 +43,14 @@ function onMessage(event) {
           break;
         }
         case CATEGORY_ENUM.ROOM: {
-          if (message.message === ROOM_ENUM.CREATE_ROOM) {
+          if (message.message === ROOM_ENUM.JOIN_LOBBY) {
+            rooms = message.data.rooms;
+            users = message.data.users;
+            document.getElementById("game-screen").style.display = "none";
+            document.getElementById("lobby-screen").style.display = "flex";
+            document.getElementsByTagName("header")[0].style.display = "flex";
+            displayRooms();
+          } else if (message.message === ROOM_ENUM.CREATE_ROOM) {
             // we know that if the user id is our id we created the room
             // otherwise the room was created by someone else, we get this message if we are in the lobby
             rooms.push(message.data);
@@ -98,7 +107,7 @@ function onMessage(event) {
         }
         // chat messages
         case CATEGORY_ENUM.CHAT: {
-          if(message.message === CHAT_ENUM.RECEIVE_MESSAGE) {
+          if (message.message === CHAT_ENUM.RECEIVE_MESSAGE) {
             // when we get this message we know that we are in the same room as the sender
             // thus we want to push it to our messages array so we can display it to the user
             messages.push(message.data);
@@ -122,6 +131,30 @@ function onMessage(event) {
             currentCountdownNumber.anchor.set(0.5);
             app.stage.addChild(currentCountdownNumber);
           } else if (message.message === GAME_ENUM.UPDATE_GAME) {
+            if(ourScore === undefined) {
+              ourScore = new PIXI.Text(0, {
+                fontFamily: "Arial",
+                fontSize: 96,
+                fill: 0xffffff,
+                align: "center",
+              });
+              ourScore.x = screenWidth / 2;
+              ourScore.y = screenHeight / 2 + screenHeight / 4;
+              ourScore.anchor.set(0.5);
+              app.stage.addChild(ourScore);
+            }
+            if(theirScore === undefined) {
+              theirScore = new PIXI.Text(0, {
+                fontFamily: "Arial",
+                fontSize: 96,
+                fill: 0xffffff,
+                align: "center",
+              });
+              theirScore.x = screenWidth / 2;
+              theirScore.y = screenHeight / 2 - screenHeight / 4;
+              theirScore.anchor.set(0.5);
+              app.stage.addChild(theirScore);
+            }
             // we want to render the users paddle always as the bottom paddle
             // so if we are the bottompaddle we set the bottompaddle to the bottompaddle location
             // otherwise we set the bottompaddle to the toppaddle location
@@ -129,10 +162,15 @@ function onMessage(event) {
               bottomPaddle.graphics.x = message.data.bottomPaddle.x;
               topPaddle.graphics.x = message.data.topPaddle.x;
               ball.graphics.y = message.data.ball.y;
+              ourScore.text = message.data.bottomPaddle.score;
+              theirScore.text = message.data.topPaddle.score;
             } else {
               topPaddle.graphics.x = message.data.bottomPaddle.x;
               bottomPaddle.graphics.x = message.data.topPaddle.x;
               ball.graphics.y = -message.data.ball.y + screenHeight;
+              score = message.data.topPaddle.score;
+              ourScore.text = message.data.topPaddle.score;
+              theirScore.text = message.data.bottomPaddle.score;
             }
 
             // updating the ball
