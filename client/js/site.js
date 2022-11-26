@@ -21,6 +21,15 @@ const topPaddle = new Paddle(screenWidth / 2, 40);
 const ball = new Ball(screenWidth / 2, screenHeight / 2);
 
 app.ticker.add((delta) => {
+  if (currentCountdownNumber !== undefined) {
+    currentCountdownNumber.style.fontSize -= 2.5;
+    if (currentCountdownNumber.style.fontSize <= 0) {
+      app.stage.removeChild(currentCountdownNumber);
+    }
+  }
+
+  if (clientId === undefined) return;
+
   if (touchX !== undefined) {
     if (touchX < bottomPaddle.graphics.x - touchBuffer) {
       ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.MOVE_LEFT, clientId)));
@@ -31,15 +40,6 @@ app.ticker.add((delta) => {
     } else {
       ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.STOP_MOVE_LEFT, clientId)));
       ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.STOP_MOVE_RIGHT, clientId)));
-    }
-  } else {
-    ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.STOP_MOVE_LEFT, clientId)));
-    ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.STOP_MOVE_RIGHT, clientId)));
-  }
-  if (currentCountdownNumber !== undefined) {
-    currentCountdownNumber.style.fontSize -= 2.5;
-    if (currentCountdownNumber.style.fontSize <= 0) {
-      app.stage.removeChild(currentCountdownNumber);
     }
   }
 });
@@ -71,6 +71,8 @@ document.addEventListener("touchmove", (e) => {
 
 document.addEventListener("touchend", (e) => {
   touchX = undefined;
+  ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.STOP_MOVE_LEFT, clientId)));
+  ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.STOP_MOVE_RIGHT, clientId)));
 });
 
 onkeyup = (e) => {

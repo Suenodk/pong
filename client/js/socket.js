@@ -1,5 +1,5 @@
 let room = "";
-let clientId = "";
+let clientId;
 let username = "";
 
 let rooms = [];

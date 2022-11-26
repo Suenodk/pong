@@ -1,0 +1,45 @@
+{
+    "name": "Ppong",
+    "short_name": "Ppong",
+    "start_url": "index.html",
+    "display": "standalone",
+    "background_color": "#0d0d0d",
+    "theme_color": "#452685",
+    "orientation": "portrait-primary",
+    "icons": [{
+            "src": "/assets/icons/icon-36.png",
+            "type": "image/png",
+            "sizes": "36x36"
+        },
+        {
+            "src": "/assets/icons/icon-48.png",
+            "type": "image/png",
+            "sizes": "48x48"
+        },
+        {
+            "src": "/assets/icons/icon-72.png",
+            "type": "image/png",
+            "sizes": "72x72"
+        },
+        {
+            "src": "/assets/icons/icon-96.png",
+            "type": "image/png",
+            "sizes": "96x96"
+        },
+        {
+            "src": "/assets/icons/icon-144.png",
+            "type": "image/png",
+            "sizes": "144x144"
+        },
+        {
+            "src": "/assets/icons/icon-192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "/assets/icons/icon-512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ]
+}
