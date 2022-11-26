@@ -59,6 +59,7 @@ header {
   justify-content: start;
   align-items: center;
   height: calc(100vh - 4rem);
+  height: calc(-webkit-fill-available - 4rem);
   flex-direction: column;
 }
 
@@ -133,6 +134,7 @@ button {
 
 #landing-screen {
   height: 100vh;
+  height: -webkit-fill-available;
 }
 
 #login-card {
