@@ -4,6 +4,7 @@
   --text-light: #cccccc;
   --text-dark: #0d0d0d;
   --grey: #333333;
+  --light-grey: #555555; 
   --primary-color: #452685;
   --primary-color-darken: #3d2273;
   --success: #1f810e;
@@ -72,6 +73,7 @@ input {
   letter-spacing: 0.2rem;
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;
+  margin-bottom: 5px;
 }
 
 button {

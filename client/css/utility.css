@@ -70,6 +70,10 @@
   font-weight: 500;
 }
 
+.mb-2 {
+  margin-bottom: 2rem;
+}
+
 .weight-300 {
   font-weight: 300;
 }
@@ -115,6 +119,10 @@ button:hover {
 
 .flex-grow-1 {
   flex-grow: 1;
+}
+
+.flex-1 {
+  flex: 1 1 0%;
 }
 
 /* xs */

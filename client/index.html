@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#452685" />
+    <meta name="description" content="Play and compete with other people in this online real-time version of Pong." />
     <link rel="stylesheet" href="./css/typography.css" />
     <link rel="stylesheet" href="./css/utility.css" />
     <link rel="stylesheet" href="./css/site.css" />
@@ -18,22 +19,23 @@
   </head>
   <body>
     <header>
-      <img src="./assets/ppong_logo.svg" width="110"/>
+      <img src="./assets/ppong_logo.svg" width="110" />
       <h5 id="username-display"></h5>
     </header>
     <div id="landing-screen" class="d-flex justify-center column">
-      <div class="flex-grow-1 d-flex justify-center align-center">
-        <img src="./assets/ppong_logo.svg" style="position: absolute"/>
+      <div class="flex-1 d-flex justify-center align-center">
+        <img src="./assets/ppong_logo.svg" width="200" />
       </div>
       <div id="login-card" class="d-flex justify-center column pa-2 mx-lg-auto">
-        <h4 class="uppercase mb-3 weight-600">The online pong platform</h4>
+        <h4 class="uppercase weight-600">Welcome</h4>
+        <p class="subtitle mb-2 weight-600 uppercase">To a real-time competitive Pong experience</p>
         <div class="d-flex column">
           <input id="username-input" />
-          <p class="uppercase caption mt-1">Leave empty to stay anonymous</p>
+          <p class="uppercase caption">Leave empty to stay anonymous</p>
           <button class="primary mt-2" onclick="login()">Join</button>
         </div>
       </div>
-      <div class="flex-grow-1 d-flex justify-center align-center">
+      <div class="flex-1 d-flex justify-center align-center">
         <h4 class="uppercase" id="users-online"></h4>
       </div>
     </div>
