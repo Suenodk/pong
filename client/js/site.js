@@ -25,6 +25,12 @@ const usernameInput = (document.getElementById("username-input").onkeydown = (e)
   }
 });
 
+const messageContentInput = (document.getElementById("message-content").onkeydown = (e) => {
+  if (e.key.toUpperCase() === "ENTER") {
+    sendMessage();
+  }
+});
+
 const bottomPaddle = new Paddle(screenWidth / 2, screenHeight - 40);
 const topPaddle = new Paddle(screenWidth / 2, 40);
 const ball = new Ball(screenWidth / 2, screenHeight / 2);
@@ -125,6 +131,37 @@ function navigateToGameRoom(roomId) {
 function login() {
   const username = document.getElementById("username-input").value;
   ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ACCOUNT, ACCOUNT_ENUM.LOGIN, clientId, username)));
+}
+
+function sendMessage() {
+  const message = document.getElementById("message-content").value;
+  document.getElementById("message-content").value = "";
+  ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.CHAT, CHAT_ENUM.SEND_MESSAGE, clientId, message)));
+}
+
+function displayChatMessages() {
+  const parent = document.getElementById("chat-messages");
+
+  while (parent.firstChild) {
+    parent.removeChild(parent.lastChild);
+  }
+
+  messages.forEach((m) => {
+    const messageWrapper = document.createElement("div");
+    const messageSender = document.createElement("span");
+    const messageContent = document.createElement("span");
+
+    messageWrapper.classList.add("chat-message");
+    messageSender.classList.add("mr-1");
+    messageContent.classList.add("message");
+
+    messageSender.innerHTML = m.senderUsername;
+    messageContent.innerHTML = m.message;
+
+    messageWrapper.appendChild(messageSender);
+    messageWrapper.appendChild(messageContent);
+    parent.appendChild(messageWrapper);
+  });
 }
 
 function displayRooms() {

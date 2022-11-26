@@ -2,6 +2,7 @@
 
 :root {
   --text-light: #cccccc;
+  --text-secondary: #a3a3a3;
   --text-dark: #0d0d0d;
   --grey: #333333;
   --light-grey: #555555; 
@@ -57,7 +58,7 @@ header {
   display: none;
   justify-content: start;
   align-items: center;
-  height: calc(100vh - 4rem - 2rem);
+  height: calc(100vh - 4rem);
   flex-direction: column;
 }
 
@@ -138,4 +139,13 @@ button {
   border-radius: 5px;
   background-color: #cccccc;
   color: var(--text-dark);
+}
+
+.chat-message span:first-child {
+  width: 7rem;
+  display: inline-block;
+}
+
+.chat-message .message {
+  color: var(--text-secondary);
 }

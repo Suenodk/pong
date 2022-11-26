@@ -10,6 +10,7 @@ const CATEGORY_ENUM = Object.freeze({
   ROOM: "ROOM",
   GAME: "GAME",
   ACCOUNT: "ACCOUNT",
+  CHAT: "CHAT"
 });
 
 const ACCOUNT_ENUM = Object.freeze({
@@ -31,4 +32,9 @@ const GAME_ENUM = Object.freeze({
   STOP_MOVE_RIGHT: "STOP_MOVE_RIGHT",
   START_GAME: "START_GAME",
   UPDATE_GAME: "UPDATE_GAME",
+});
+
+const CHAT_ENUM = Object.freeze({
+  SEND_MESSAGE: "SEND_MESSAGE",
+  RECEIVE_MESSAGE: "RECEIVE_MESSAGE"
 });

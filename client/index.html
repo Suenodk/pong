@@ -41,7 +41,11 @@
     </div>
     <div id="lobby-screen">
       <button class="mt-2 primary" id="create-room-button" onclick="createRoom()">Create new room</button>
-      <ul id="rooms" class="mt-1"></ul>
+      <ul id="rooms" class="mt-1 flex-1"></ul>
+      <div class="d-flex column">
+        <div id="chat-messages" style="max-height: 8rem; overflow-y: scroll" class="mx-1 mb-1"></div>
+        <div class="d-flex"><input style="width: 100%" class="mb-0" id="message-content" /><button onclick="sendMessage()">send</button></div>
+      </div>
     </div>
     <div id="game-screen">
       <div class="centered-text mt2">

@@ -7,6 +7,7 @@ class Room {
   abandoned;
   // lobby room now also has a gamestate, we want to apply this only to game rooms later on
   gameState;
+  chatMessage;
 
   constructor(id) {
     this.id = id;

@@ -21,13 +21,14 @@ const CATEGORY_ENUM = Object.freeze({
   ROOM: "ROOM",
   GAME: "GAME",
   ERROR: "ERROR",
-  ACCOUNT: "ACCOUNT"
+  ACCOUNT: "ACCOUNT",
+  CHAT: "CHAT"
 });
 const ROOM_ENUM = Object.freeze({
   JOIN_ROOM: "JOIN_ROOM",
   CREATE_ROOM: "CREATE_ROOM",
   LEAVE_ROOM: "LEAVE_ROOM",
-  DELETE_ROOM: "DELETE_ROOM",
+  DELETE_ROOM: "DELETE_ROOM"
 });
 const GAME_ENUM = Object.freeze({
   MOVE_LEFT: "MOVE_LEFT",
@@ -36,6 +37,10 @@ const GAME_ENUM = Object.freeze({
   STOP_MOVE_RIGHT: "STOP_MOVE_RIGHT",
   START_GAME: "START_GAME",
   UPDATE_GAME: "UPDATE_GAME",
+});
+const CHAT_ENUM = Object.freeze({
+  SEND_MESSAGE: "SEND_MESSAGE",
+  RECEIVE_MESSAGE: "RECEIVE_MESSAGE"
 });
 
 module.exports = {
@@ -48,5 +53,6 @@ module.exports = {
   ROOM_ENUM,
   GAME_ENUM,
   CATEGORY_ENUM,
-  ACCOUNT_ENUM
+  ACCOUNT_ENUM,
+  CHAT_ENUM
 };

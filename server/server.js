@@ -1,9 +1,10 @@
 const uWS = require("uWebSockets.js");
 const { v4: uuidv4 } = require("uuid");
-const { SCREEN_WIDTH, PORT, HOST, EVENT_TYPE_ENUM, ROOM_ENUM, GAME_COMMANDS, CATEGORY_ENUM, GAME_ENUM, ACCOUNT_ENUM } = require("./constants");
+const { SCREEN_WIDTH, PORT, HOST, EVENT_TYPE_ENUM, ROOM_ENUM, GAME_COMMANDS, CATEGORY_ENUM, GAME_ENUM, ACCOUNT_ENUM, CHAT_ENUM } = require("./constants");
 const { User } = require("./user");
 const { ServerMessage, ClientMessage, ErrorMessage, SuccesServerMessage } = require("./message");
 const { GameServer } = require("./gameServer");
+const { ChatMessage } = require("./chatMessage");
 
 const gameServer = new GameServer();
 
@@ -103,6 +104,27 @@ const app = uWS
             const errorMessage = new ErrorMessage(`${clientMessage.message} is not a valid message`);
             console.log(errorMessage.message);
             ws.send(JSON.stringify(errorMessage));
+          }
+          break;
+        }
+        // chat messages
+        case CATEGORY_ENUM.CHAT: {
+          if (clientMessage.message === CHAT_ENUM.SEND_MESSAGE) {
+            const user = gameServer.users.find((u) => u.id === clientMessage.senderId);
+            const room = gameServer.gameRooms.find((r) => r.users.some(u => u === user));
+
+            const message = new ChatMessage(clientMessage.data, user);
+
+            const chatMessage = new SuccesServerMessage(
+              EVENT_TYPE_ENUM.CLIENT_MESSAGE,
+              CATEGORY_ENUM.CHAT,
+              CHAT_ENUM.RECEIVE_MESSAGE,
+              user.id,
+              message
+            );
+
+            // for now users who are not in the room are also able to send messages to a room they are not in
+            room.sendMessageToUsersInRoom(chatMessage);
           }
           break;
         }

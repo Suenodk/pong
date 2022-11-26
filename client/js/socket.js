@@ -2,6 +2,7 @@ let room = "";
 let clientId;
 let username = "";
 
+let messages = [];
 let rooms = [];
 let users = [];
 
@@ -94,6 +95,16 @@ function onMessage(event) {
               displayRooms();
             }
           }
+        }
+        // chat messages
+        case CATEGORY_ENUM.CHAT: {
+          if(message.message === CHAT_ENUM.RECEIVE_MESSAGE) {
+            // when we get this message we know that we are in the same room as the sender
+            // thus we want to push it to our messages array so we can display it to the user
+            messages.push(message.data);
+            displayChatMessages();
+          }
+          break;
         }
         case CATEGORY_ENUM.GAME: {
           if (message.message === GAME_ENUM.START_GAME) {
