@@ -1,6 +1,6 @@
 const uWS = require("uWebSockets.js");
 const { v4: uuidv4 } = require("uuid");
-const { SCREEN_WIDTH, PORT, HOST, EVENT_TYPE_ENUM, ROOM_ENUM, GAME_COMMANDS, CATEGORY_ENUM, GAME_ENUM, ACCOUNT_ENUM, CHAT_ENUM } = require("./constants");
+const { SCREEN_WIDTH, PORT, HOST, ORIGIN, EVENT_TYPE_ENUM, ROOM_ENUM, GAME_COMMANDS, CATEGORY_ENUM, GAME_ENUM, ACCOUNT_ENUM, CHAT_ENUM } = require("./constants");
 const { User } = require("./user");
 const { ServerMessage, ClientMessage, ErrorMessage, SuccesServerMessage } = require("./message");
 const { GameServer } = require("./gameServer");
@@ -20,7 +20,7 @@ const app = uWS
     maxPayloadLength: 16 * 1024 * 1024,
     idleTimeout: 60,
     upgrade: (res, req, context) => {
-      if (req.getHeader("origin") !== "https://ppong.nl") {
+      if (req.getHeader("origin") !== ORIGIN) {
         res.close();
         return;
       }

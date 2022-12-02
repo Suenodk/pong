@@ -6,11 +6,15 @@
   --text-dark: #0d0d0d;
   --grey: #333333;
   --light-grey: #555555;
+  --lighter-grey: #b7b7b7;
   --primary-color: #452685;
   --primary-color-darken: #321b5f;
   --primary-color-lighten: #5b31af;
   --success: #1f810e;
   --error: #721d1d;
+  --quick-animation: 0.2s;
+  --normal-animation: 0.8s;
+  --spacing: 0.5rem;
 }
 
 body {
@@ -75,7 +79,6 @@ input {
   letter-spacing: 0.2rem;
   font-family: "Montserrat", sans-serif;
   font-weight: 600;
-  margin-bottom: 5px;
 }
 
 button {
@@ -90,6 +93,8 @@ button {
   letter-spacing: 0.1rem;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
+  transform: translateY(0);
+  transition: transform var(--quick-animation), border-bottom-left-radius var(--quick-animation), border-bottom-right-radius var(--quick-animation);
 }
 
 button::after {
@@ -99,12 +104,12 @@ button::after {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 0rem;
-  transform: translateY(0.5rem);
+  bottom: 0;
+  transform: translateY(0.5rem) scaleY(1);
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
-  transition: height 0.25s;
-  animation-direction: reverse;
+  transform-origin: bottom;
+  transition: transform var(--quick-animation);
 }
 
 #rooms li {
@@ -150,12 +155,33 @@ button::after {
 }
 
 #landing-screen {
+  position: relative;
   height: calc(var(--vh, 1vh) * 100);
+}
+
+#landing-screen::before {
+  content: "";
+  position: absolute;
+  top: calc(var(--spacing) * 2);
+  left: 20vw;
+  right: 20vw;
+  height: 0.5rem;
+  background-color: white;
+}
+
+#landing-screen::after {
+  content: "";
+  position: absolute;
+  bottom: calc(var(--spacing) * 2);
+  left: 20vw;
+  right: 20vw;
+  height: 0.5rem;
+  background-color: white;
 }
 
 #login-card {
   border-radius: 5px;
-  background-color: #cccccc;
+  background-color: var(--lighter-grey);
   color: var(--text-dark);
 }
 

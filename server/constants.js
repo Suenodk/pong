@@ -2,6 +2,7 @@ const FRAME_RATE = 60;
 const SCREEN_WIDTH = 600;
 const SCREEN_HEIGHT = 800;
 const PORT = process.env.PORT || 3000;
+const ORIGIN = process.env.ORIGIN || "localhost";
 const HOST = "0.0.0.0";
 
 // add an enum with Object.freeze for code safety
@@ -50,6 +51,7 @@ module.exports = {
   SCREEN_HEIGHT,
   PORT,
   HOST,
+  ORIGIN,
   EVENT_TYPE_ENUM,
   ROOM_ENUM,
   GAME_ENUM,

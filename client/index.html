@@ -22,21 +22,21 @@
       <img src="./assets/ppong_logo.svg" width="110" />
       <h5 id="username-display"></h5>
     </header>
-    <div id="landing-screen" class="d-flex justify-center column">
-      <div class="flex-1 d-flex justify-center align-center">
+    <div id="landing-screen" class="d-flex justify-content-center column">
+      <div class="flex-1 d-flex justify-content-center align-items-center">
         <img src="./assets/ppong_logo.svg" width="200" />
       </div>
-      <div id="login-card" class="d-flex justify-center column px-1 py-2 mx-lg-auto">
-        <h4 class="uppercase weight-600">Welcome</h4>
-        <p class="subtitle mb-2 weight-600 uppercase">To a real-time competitive Pong experience</p>
+      <div id="login-card" class="d-flex justify-content-center column px-2 py-2 lg-mx-auto">
+        <h4 class="uppercase weight-600 xs-align-self-center mb-1">Welcome</h4>
+        <p class="subtitle mb-5 weight-600 uppercase text-align-center">To a real-time competitive Pong experience</p>
         <div class="d-flex column">
-          <input id="username-input" />
+          <input id="username-input" class="mb-1" placeholder="New challenger"/>
           <p class="uppercase caption">Leave empty to stay anonymous</p>
-          <button class="primary mt-2" onclick="login()">Join</button>
+          <button class="primary mt-5 mb-2" onclick="login()">Join</button>
         </div>
       </div>
-      <div class="flex-1 d-flex justify-center align-center">
-        <h4 class="uppercase" id="users-online"></h4>
+      <div class="flex-1 d-flex justify-content-center align-items-center">
+        <h4 class="uppercase" id="users-online">Loading...</h4>
       </div>
     </div>
     <div id="lobby-screen">
@@ -51,7 +51,7 @@
       <div class="centered-text mt2">
         <h4 id="room-id"></h4>
       </div>
-      <div class="d-flex justify-space-around mt-2 align-center">
+      <div class="d-flex justify-space-around mt-2 align-items-center">
         <h4 id="user-you" style="width: 15rem"></h4>
         <div id="canvas-container"></div>
         <h4 id="user-opponent" style="width: 15rem"></h4>
