@@ -22,7 +22,7 @@ function onOpenConnection() {}
 
 function onMessage(event) {
   const message = new ClientMessage(JSON.parse(event.data));
-  console.log(message);
+  // console.log(message);
 
   switch (message.eventType) {
     case EVENT_TYPE_ENUM.CLIENT_MESSAGE:
@@ -132,7 +132,7 @@ function onMessage(event) {
             if (ourScore === undefined) {
               ourScore = new PIXI.Text(0, {
                 fontFamily: "Montserrat",
-                fontSize: screenWidth / 5,
+                fontSize: screenWidth / 6,
                 fill: 0xffffff,
                 align: "center",
               });
@@ -144,7 +144,7 @@ function onMessage(event) {
             if (theirScore === undefined) {
               theirScore = new PIXI.Text(0, {
                 fontFamily: "Montserrat",
-                fontSize: screenWidth / 5,
+                fontSize: screenWidth / 6,
                 fill: 0xffffff,
                 align: "center",
               });
@@ -173,6 +173,10 @@ function onMessage(event) {
 
             // updating the ball
             ball.graphics.x = message.data.ball.x * vw;
+          } else if (message.message === GAME_ENUM.BlAST) {
+            for (let i = 0; i < 300; i++) {
+              particles.push(new Particle(message.data.x * vw, message.data.y * vh, Math.random() * 5 + 3));
+            }
           }
         }
       }

@@ -33,7 +33,7 @@ class Room {
   }
 
   startGame() {
-    this.gameState = new GameState(this.users[0], this.users[1]);
+    this.gameState = new GameState(this.users[0], this.users[1], this.sendMessageToUsersInRoom.bind(this));
   }
 
   updateGame() {

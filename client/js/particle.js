@@ -1,5 +1,8 @@
-class Ball {
+class Particle {
   graphics;
+  velocityX;
+  velocityY;
+  speed;
   constructor(x, y, r) {
     this.graphics = new PIXI.Graphics();
     this.graphics.beginFill(0xffffff);
@@ -10,5 +13,8 @@ class Ball {
     this.graphics.interactive = true;
     app.stage.addChild(this.graphics);
     this.graphics.scale.set(r, r);
+    this.velocityX = Math.random() * 2 - 1;
+    this.velocityY = Math.random() * 2 - 1;
+    this.speed = Math.random() * 2 + 3;
   }
 }

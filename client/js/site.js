@@ -7,6 +7,8 @@ document.documentElement.style.setProperty("--vh", `${vh}px`);
 const generatedUsername = `${adjectives[Math.floor(Math.random() * adjectives.length)]} chonker`;
 document.getElementById("username-input").placeholder = generatedUsername;
 
+const particles = [];
+
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", function () {
     navigator.serviceWorker
@@ -24,7 +26,7 @@ const touchBuffer = 8;
 
 let canvasRectangle = document.getElementById("canvas-container").getBoundingClientRect();
 
-let app = new PIXI.Application({ width: screenWidth, height: screenHeight });
+let app = new PIXI.Application({ width: screenWidth, height: screenHeight, antialias: true });
 document.getElementById("canvas-container").appendChild(app.view);
 
 const usernameInput = (document.getElementById("username-input").onkeydown = (e) => {
@@ -51,6 +53,16 @@ app.ticker.add((delta) => {
     }
   }
 
+  for (let i = particles.length - 1; i >= 0; i--) {
+    particles[i].graphics.x += particles[i].velocityX * particles[i].speed;
+    particles[i].graphics.y += particles[i].velocityY * particles[i].speed;
+    particles[i].graphics.scale.set(particles[i].graphics.scale.x - 0.1, particles[i].graphics.scale.y - 0.1);
+    if(particles[i].graphics.scale.x < 0 || particles[i].graphics.scale.y < 0) {
+      particles.splice(i, 1);
+    }
+  }
+
+  // handles the touch events
   if (clientId === undefined) return;
 
   if (touchX !== undefined) {

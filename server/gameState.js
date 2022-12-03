@@ -1,5 +1,6 @@
 const { Ball } = require("./ball");
-const { SCREEN_WIDTH, GAME_ENUM, SCREEN_HEIGHT } = require("./constants");
+const { SCREEN_WIDTH, GAME_ENUM, SCREEN_HEIGHT, EVENT_TYPE_ENUM, CATEGORY_ENUM } = require("./constants");
+const { SuccesServerMessage } = require("./message");
 const { Paddle } = require("./paddle");
 
 class GameState {
@@ -9,8 +10,11 @@ class GameState {
   paused;
   finished;
   ballSpeedIncrease;
+  sendMessageToUsersInRoom;
 
-  constructor(user1, user2) {
+  constructor(user1, user2, sendMessageToUsersInRoom) {
+    this.sendMessageToUsersInRoom = sendMessageToUsersInRoom;
+
     this.topPaddle = new Paddle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 20);
     this.bottomPaddle = new Paddle(SCREEN_WIDTH / 2, SCREEN_HEIGHT - SCREEN_HEIGHT / 20);
     this.topPaddle.user = user1;
@@ -45,6 +49,12 @@ class GameState {
 
     // moving out of the top of the screen
     if (this.ball.y + this.ball.radius < 0) {
+      const blastMessage = new SuccesServerMessage(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.BLAST, "", {
+        x: this.ball.x,
+        y: this.ball.y,
+      });
+
+      this.sendMessageToUsersInRoom(blastMessage);
       this.bottomPaddle.score++;
       if (this.bottomPaddle.score >= 3) {
         this.finished = true;
@@ -52,8 +62,14 @@ class GameState {
       this.resetBall();
     }
 
-    // moving out of the bottom of he screen
+    // moving out of the bottom of the screen
     if (this.ball.y - this.ball.radius > SCREEN_HEIGHT) {
+      const blastMessage = new SuccesServerMessage(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.GAME, GAME_ENUM.BLAST, "", {
+        x: this.ball.x,
+        y: this.ball.y,
+      });
+
+      this.sendMessageToUsersInRoom(blastMessage);
       this.topPaddle.score++;
       if (this.topPaddle.score >= 3) {
         this.finished = true;

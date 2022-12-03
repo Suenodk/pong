@@ -21,7 +21,7 @@
   <body>
     <header>
       <img src="./assets/ppong_logo_cropped.svg" width="70" />
-      <h5 id="username-display"></h5>
+      <h6 id="username-display" class="uppercase"></h6>
     </header>
     <div id="landing-screen" class="d-flex justify-content-center column">
       <div class="flex-1 d-flex justify-content-center align-items-center">
@@ -53,9 +53,9 @@
         <h4 id="room-id"></h4>
       </div> -->
       <div class="d-flex column justify-space-around align-items-center" style="height: 100%;">
-        <h6 id="user-opponent"></h6>
+        <h6 id="user-opponent" class="uppercase"></h6>
         <div id="canvas-container"></div>
-        <h6 id="user-you"></h6>
+        <h6 id="user-you" class="uppercase"></h6>
       </div>
     </div>
     <script src="./js/serviceWorker.js"></script>
@@ -64,6 +64,7 @@
     <script src="./js/constants.js"></script>
     <script src="./js/message.js"></script>
     <script src="./js/paddle.js"></script>
+    <script src="./js/particle.js"></script>
     <script src="./js/ball.js"></script>
     <script src="./js/site.js"></script>
     <script src="./js/socket.js"></script>

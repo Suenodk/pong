@@ -33,6 +33,7 @@ const GAME_ENUM = Object.freeze({
   STOP_MOVE_RIGHT: "STOP_MOVE_RIGHT",
   START_GAME: "START_GAME",
   UPDATE_GAME: "UPDATE_GAME",
+  BlAST: "BLAST"
 });
 
 const CHAT_ENUM = Object.freeze({
