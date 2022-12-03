@@ -18,9 +18,7 @@ ws.addEventListener("open", onOpenConnection);
 ws.addEventListener("close", onCloseConnection);
 ws.addEventListener("message", onMessage);
 
-function onOpenConnection() {
-  console.log("connected to server!");
-}
+function onOpenConnection() {}
 
 function onMessage(event) {
   const message = new ClientMessage(JSON.parse(event.data));
@@ -86,7 +84,7 @@ function onMessage(event) {
 
             // if someone joined our room we want to render his or her name on the screen
             // or if we joined the room (this means that there is already somebody there) we want to render the other users name
-            document.getElementById("user-opponent").innerHTML = currentRoom.users.find((u) => u.id !== clientId).username;
+            // document.getElementById("user-opponent").innerHTML = currentRoom.users.find((u) => u.id !== clientId).username;
           } else if (message.message === ROOM_ENUM.LEAVE_ROOM) {
             // we know that if we get a leave room message it applies to the room we are currently in
             const user = users.find((u) => u.id === message.data);
@@ -131,7 +129,7 @@ function onMessage(event) {
             currentCountdownNumber.anchor.set(0.5);
             app.stage.addChild(currentCountdownNumber);
           } else if (message.message === GAME_ENUM.UPDATE_GAME) {
-            if(ourScore === undefined) {
+            if (ourScore === undefined) {
               ourScore = new PIXI.Text(0, {
                 fontFamily: "Arial",
                 fontSize: 96,
@@ -143,7 +141,7 @@ function onMessage(event) {
               ourScore.anchor.set(0.5);
               app.stage.addChild(ourScore);
             }
-            if(theirScore === undefined) {
+            if (theirScore === undefined) {
               theirScore = new PIXI.Text(0, {
                 fontFamily: "Arial",
                 fontSize: 96,

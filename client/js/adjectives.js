@@ -63,7 +63,6 @@ const adjectives = [
   "elite",
   "empty",
   "equal",
-  "erect",
   "even",
   "faded",
   "faint",

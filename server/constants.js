@@ -1,6 +1,6 @@
-const FRAME_RATE = 60;
+const FRAME_RATE = 120;
 // percentage of the view width and view height
-// ratio is very important here must be the same as the client 80 wide by 90 high
+// ratio is very important here must be the same as the client 8 wide by 9 high
 const SCREEN_WIDTH = 80;
 const SCREEN_HEIGHT = 90;
 const PORT = process.env.PORT || 3000;
