@@ -35,6 +35,7 @@ const adjectives = [
   "clean",
   "clear",
   "cold",
+  "coo",
   "cool",
   "crazy",
   "cruel",

@@ -84,7 +84,7 @@ function onMessage(event) {
 
             // if someone joined our room we want to render his or her name on the screen
             // or if we joined the room (this means that there is already somebody there) we want to render the other users name
-            // document.getElementById("user-opponent").innerHTML = currentRoom.users.find((u) => u.id !== clientId).username;
+            document.getElementById("user-opponent").innerHTML = currentRoom.users.find((u) => u.id !== clientId).username;
           } else if (message.message === ROOM_ENUM.LEAVE_ROOM) {
             // we know that if we get a leave room message it applies to the room we are currently in
             const user = users.find((u) => u.id === message.data);
@@ -119,8 +119,8 @@ function onMessage(event) {
               app.stage.removeChild(currentCountdownNumber);
             }
             currentCountdownNumber = new PIXI.Text(message.data, {
-              fontFamily: "Arial",
-              fontSize: 256,
+              fontFamily: "Montserrat",
+              fontSize: screenWidth / 4,
               fill: 0xffffff,
               align: "center",
             });
@@ -131,8 +131,8 @@ function onMessage(event) {
           } else if (message.message === GAME_ENUM.UPDATE_GAME) {
             if (ourScore === undefined) {
               ourScore = new PIXI.Text(0, {
-                fontFamily: "Arial",
-                fontSize: 96,
+                fontFamily: "Montserrat",
+                fontSize: screenWidth / 5,
                 fill: 0xffffff,
                 align: "center",
               });
@@ -143,8 +143,8 @@ function onMessage(event) {
             }
             if (theirScore === undefined) {
               theirScore = new PIXI.Text(0, {
-                fontFamily: "Arial",
-                fontSize: 96,
+                fontFamily: "Montserrat",
+                fontSize: screenWidth / 5,
                 fill: 0xffffff,
                 align: "center",
               });

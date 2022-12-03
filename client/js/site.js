@@ -4,7 +4,7 @@ const vw = window.innerWidth * 0.01;
 // Then we set the value in the --vh custom property to the root of the document
 document.documentElement.style.setProperty("--vh", `${vh}px`);
 // Generate a random placeholder
-const generatedUsername = `${adjectives[Math.floor(Math.random()*adjectives.length)]} chonker`;
+const generatedUsername = `${adjectives[Math.floor(Math.random() * adjectives.length)]} chonker`;
 document.getElementById("username-input").placeholder = generatedUsername;
 
 if ("serviceWorker" in navigator) {
@@ -41,11 +41,11 @@ const messageContentInput = (document.getElementById("message-content").onkeydow
 
 const bottomPaddle = new Paddle(screenWidth / 2, screenHeight - screenHeight / 20, screenWidth / 2.5, screenHeight / 50);
 const topPaddle = new Paddle(screenWidth / 2, screenHeight / 20, screenWidth / 2.5, screenHeight / 50);
-const ball = new Ball(screenWidth / 2, screenHeight / 2, screenHeight / 40);
+const ball = new Ball(-screenWidth / 2, -screenHeight / 2, screenHeight / 40);
 
 app.ticker.add((delta) => {
   if (currentCountdownNumber !== undefined) {
-    currentCountdownNumber.style.fontSize -= 2.5;
+    currentCountdownNumber.style.fontSize -= screenWidth / 200;
     if (currentCountdownNumber.style.fontSize <= 0) {
       app.stage.removeChild(currentCountdownNumber);
     }
@@ -131,7 +131,7 @@ function navigateToGameRoom(roomId) {
   document.getElementById("lobby-screen").style.display = "none";
   document.getElementById("game-screen").style.display = "flex";
   // document.getElementById("room-id").innerHTML = roomId;
-  // document.getElementById("user-you").innerHTML = username;
+  document.getElementById("user-you").innerHTML = username;
   document.getElementsByTagName("header")[0].style.display = "none";
   canvasRectangle = document.getElementById("canvas-container").getBoundingClientRect();
 }
@@ -139,16 +139,17 @@ function navigateToGameRoom(roomId) {
 function login() {
   let username = document.getElementById("username-input").value;
 
-  if(username === undefined || !username.trim().length)
-    username = generatedUsername;
-  
+  if (username === undefined || !username.trim().length) username = generatedUsername;
+
   ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ACCOUNT, ACCOUNT_ENUM.LOGIN, clientId, username)));
 }
 
 function sendMessage() {
   const message = document.getElementById("message-content").value;
   document.getElementById("message-content").value = "";
-  ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.CHAT, CHAT_ENUM.SEND_MESSAGE, clientId, message)));
+  // if the message is undefined or the message is empty we don't want to send it
+  if (message != undefined && message.trim().length)
+    ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.CHAT, CHAT_ENUM.SEND_MESSAGE, clientId, message)));
 }
 
 function displayChatMessages() {
@@ -163,7 +164,7 @@ function displayChatMessages() {
     const messageSender = document.createElement("span");
     const messageContent = document.createElement("span");
 
-    messageWrapper.classList.add("chat-message");
+    messageWrapper.classList.add("chat-message", "mx-1");
     messageSender.classList.add("mr-1");
     messageContent.classList.add("message");
 
@@ -174,6 +175,8 @@ function displayChatMessages() {
     messageWrapper.appendChild(messageContent);
     parent.appendChild(messageWrapper);
   });
+
+  parent.scrollTop = parent.scrollHeight;
 }
 
 function displayRooms() {
@@ -199,10 +202,10 @@ function displayRooms() {
     roomButton.classList.add(buttonClass);
     roomUsersWrapper.classList.add("ml-2", "d-flex", "gap-1", "align-items-center");
 
-    for(let i = 0; i < 2; i++) {
+    for (let i = 0; i < 2; i++) {
       const roomUserCircle = document.createElement("div");
       const roomUserCircleClass = i < r.users.length ? "occupied" : "free";
-      roomUserCircle.classList.add("spot", roomUserCircleClass); 
+      roomUserCircle.classList.add("spot", roomUserCircleClass);
       roomUsersWrapper.appendChild(roomUserCircle);
     }
 

@@ -168,7 +168,7 @@ button.primary::after {
 }
 
 .chat-message span:first-child {
-  width: 7rem;
+  width: 8rem;
   display: inline-block;
 }
 
@@ -186,6 +186,30 @@ button.primary::after {
   border-radius: 50%;
   transform: translate(-50%, -50%);
   animation: spin var(--loader-animation) linear infinite;
+}
+
+#message-content {
+  width: 100%;
+  border-radius: 0;
+}
+
+#message-content + button {
+  transform: none;
+  border-radius: 0;
+}
+
+#chat-messages {
+  max-height: 8rem;
+  overflow-y: scroll;
+  background-color: var(--grey);
+}
+
+#chat-messages .chat-message:first-of-type {
+  margin-top: 0.5rem;
+}
+
+#chat-messages .chat-message:last-of-type {
+  margin-bottom: 0.5rem;
 }
 
 @keyframes spin {

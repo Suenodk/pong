@@ -29,7 +29,7 @@
       </div>
       <div id="login-card" class="d-flex justify-content-center column mx-2 px-2 py-2 lg-mx-auto">
         <h4 class="uppercase weight-600 xs-align-self-center mb-1">Welcome</h4>
-        <p class="subtitle mb-5 weight-600 uppercase text-align-center">To a real-time competitive Pong experience</p>
+        <h1 class="subtitle mb-5 weight-600 uppercase text-align-center">To a real-time competitive Pong experience</h1>
         <div class="d-flex column">
           <input id="username-input" class="mb-1" />
           <p class="uppercase caption">Leave empty to stay anonymous</p>
@@ -44,18 +44,18 @@
       <button class="mt-2 primary" id="create-room-button" onclick="createRoom()">Create new room</button>
       <ul id="rooms" class="mt-2 flex-1"></ul>
       <div class="d-flex column">
-        <div id="chat-messages" style="max-height: 8rem; overflow-y: scroll" class="mx-1 mb-1"></div>
-        <div class="d-flex"><input style="width: 100%" class="mb-0" id="message-content" /><button onclick="sendMessage()">send</button></div>
+        <div id="chat-messages" class="mx-1 mb-1"></div>
+        <div class="d-flex"><input class="mb-0" id="message-content" /><button onclick="sendMessage()">send</button></div>
       </div>
     </div>
     <div id="game-screen">
       <!-- <div class="centered-text mt2">
         <h4 id="room-id"></h4>
       </div> -->
-      <div class="d-flex justify-space-around align-items-center">
-        <!-- <h4 id="user-you" style="width: 15rem"></h4> -->
+      <div class="d-flex column justify-space-around align-items-center" style="height: 100%;">
+        <h6 id="user-opponent"></h6>
         <div id="canvas-container"></div>
-        <!-- <h4 id="user-opponent" style="width: 15rem"></h4> -->
+        <h6 id="user-you"></h6>
       </div>
     </div>
     <script src="./js/serviceWorker.js"></script>
