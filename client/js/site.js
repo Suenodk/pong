@@ -3,6 +3,9 @@ const vh = window.innerHeight * 0.01;
 const vw = window.innerWidth * 0.01;
 // Then we set the value in the --vh custom property to the root of the document
 document.documentElement.style.setProperty("--vh", `${vh}px`);
+// Generate a random placeholder
+const generatedUsername = `${adjectives[Math.floor(Math.random()*adjectives.length)]} chonker`;
+document.getElementById("username-input").placeholder = generatedUsername;
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", function () {
@@ -134,7 +137,11 @@ function navigateToGameRoom(roomId) {
 }
 
 function login() {
-  const username = document.getElementById("username-input").value;
+  let username = document.getElementById("username-input").value;
+
+  if(username === undefined || !username.trim().length)
+    username = generatedUsername;
+  
   ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ACCOUNT, ACCOUNT_ENUM.LOGIN, clientId, username)));
 }
 
@@ -181,15 +188,24 @@ function displayRooms() {
     const roomDisplayWrapper = document.createElement("div");
     const roomButton = document.createElement("button");
     const roomName = document.createElement("span");
-    const roomUsers = document.createElement("span");
+    const roomUsersWrapper = document.createElement("div");
 
     const joinText = r.users.length === 2 ? "Full" : "Join";
     const buttonClass = r.users.length === 2 ? "error" : "success";
+
     roomName.innerHTML = r.name;
 
-    roomUsers.innerHTML = `${r.users.length}/2`;
     roomButton.innerHTML = joinText;
     roomButton.classList.add(buttonClass);
+    roomUsersWrapper.classList.add("ml-2", "d-flex", "gap-1", "align-items-center");
+
+    for(let i = 0; i < 2; i++) {
+      const roomUserCircle = document.createElement("div");
+      const roomUserCircleClass = i < r.users.length ? "occupied" : "free";
+      roomUserCircle.classList.add("spot", roomUserCircleClass); 
+      roomUsersWrapper.appendChild(roomUserCircle);
+    }
+
     roomButton.onclick = () => {
       // sending a message that we are joining the room
       ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ROOM, ROOM_ENUM.JOIN_ROOM, clientId, r.id)));
@@ -197,7 +213,7 @@ function displayRooms() {
 
     roomDisplayWrapper.classList.add("d-flex", "justify-space-between");
     roomDisplayWrapper.appendChild(roomName);
-    roomDisplayWrapper.appendChild(roomUsers);
+    roomDisplayWrapper.appendChild(roomUsersWrapper);
     roomElement.appendChild(roomDisplayWrapper);
     roomElement.appendChild(roomButton);
     parent.appendChild(roomElement);

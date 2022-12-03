@@ -1,4 +1,3 @@
-const { generateUsername } = require("friendly-username-generator");
 const { EVENT_TYPE_ENUM } = require("./constants");
 
 class User {
@@ -10,7 +9,6 @@ class User {
   constructor(socket, id) {
     this.socket = socket;
     this.id = id;
-    this.username = generateUsername();
     this.socket.id = id;
   }
 

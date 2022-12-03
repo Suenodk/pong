@@ -2,6 +2,10 @@
   margin-top: var(--spacing);
 }
 
+.gap-1 {
+  gap: 0.5rem;
+}
+
 .mb-0 {
   margin-bottom: 0;
 }
@@ -13,6 +17,15 @@
 .mx-1 {
   margin-right: var(--spacing);
   margin-left: var(--spacing);
+}
+
+.ml-2 {
+  margin-left: calc(var(--spacing) * 2);
+}
+
+.mx-2 {
+  margin-right: calc(var(--spacing) * 2);
+  margin-left: calc(var(--spacing) * 2);
 }
 
 .mt-2 {
@@ -135,6 +148,8 @@ button.success {
 button.error {
   background-color: var(--error);
   color: var(--text-light);
+  border-radius: 5px;
+  transform: none;
 }
 
 button.primary {
@@ -143,15 +158,31 @@ button.primary {
 }
 
 button.primary:hover {
-  background-color: var(--primary-color-lighten);
+  background-color: var(--primary-color-light);
 }
 
 button.primary:active {
-  transform: translateY(0.5rem);
-  background-color: var(--primary-color-lighten);
+  transform: translateY(calc(var(--button-depth) * 0.5));
+  background-color: var(--primary-color-light);
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   transition: transform var(--quick-animation), border-bottom-left-radius var(--normal-animation), border-bottom-right-radius var(--normal-animation);
+}
+
+button.success:hover {
+  background-color: var(--success-light);
+}
+
+button.success:active {
+  transform: translateY(calc(var(--button-depth) * 0.5));
+  background-color: var(--success-light);
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  transition: transform var(--quick-animation), border-bottom-left-radius var(--normal-animation), border-bottom-right-radius var(--normal-animation);
+}
+
+button.success:active::after {
+  transform: translateY(0) scaleY(0);
 }
 
 button.primary:active::after {
@@ -192,6 +223,10 @@ button:hover {
 .py-2 {
   padding-top: calc(var(--spacing) * 2);
   padding-bottom: calc(var(--spacing) * 2);
+}
+
+.align-self-start {
+  align-self: start;
 }
 
 /* xs */

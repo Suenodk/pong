@@ -20,18 +20,18 @@
   </head>
   <body>
     <header>
-      <img src="./assets/ppong_logo.svg" width="110" />
+      <img src="./assets/ppong_logo_cropped.svg" width="70" />
       <h5 id="username-display"></h5>
     </header>
     <div id="landing-screen" class="d-flex justify-content-center column">
       <div class="flex-1 d-flex justify-content-center align-items-center">
         <img src="./assets/ppong_logo_cropped.svg" width="180" />
       </div>
-      <div id="login-card" class="d-flex justify-content-center column px-2 py-2 lg-mx-auto">
+      <div id="login-card" class="d-flex justify-content-center column mx-2 px-2 py-2 lg-mx-auto">
         <h4 class="uppercase weight-600 xs-align-self-center mb-1">Welcome</h4>
         <p class="subtitle mb-5 weight-600 uppercase text-align-center">To a real-time competitive Pong experience</p>
         <div class="d-flex column">
-          <input id="username-input" class="mb-1" placeholder="New challenger"/>
+          <input id="username-input" class="mb-1" />
           <p class="uppercase caption">Leave empty to stay anonymous</p>
           <button class="primary mt-5 mb-2" onclick="login()">Join</button>
         </div>
@@ -42,7 +42,7 @@
     </div>
     <div id="lobby-screen">
       <button class="mt-2 primary" id="create-room-button" onclick="createRoom()">Create new room</button>
-      <ul id="rooms" class="mt-1 flex-1"></ul>
+      <ul id="rooms" class="mt-2 flex-1"></ul>
       <div class="d-flex column">
         <div id="chat-messages" style="max-height: 8rem; overflow-y: scroll" class="mx-1 mb-1"></div>
         <div class="d-flex"><input style="width: 100%" class="mb-0" id="message-content" /><button onclick="sendMessage()">send</button></div>
@@ -59,6 +59,7 @@
       </div>
     </div>
     <script src="./js/serviceWorker.js"></script>
+    <script src="./js/adjectives.js"></script>
     <script src="https://pixijs.download/release/pixi.js"></script>
     <script src="./js/constants.js"></script>
     <script src="./js/message.js"></script>

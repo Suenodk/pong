@@ -8,14 +8,17 @@
   --light-grey: #555555;
   --lighter-grey: #b7b7b7;
   --primary-color: #452685;
-  --primary-color-darken: #321b5f;
-  --primary-color-lighten: #5b31af;
+  --primary-color-dark: #321b5f;
+  --primary-color-light: #5b31af;
   --success: #1f810e;
+  --success-dark: #165c0a;
+  --success-light: #2db814;
   --error: #721d1d;
   --quick-animation: 0.2s;
   --normal-animation: 0.8s;
   --spacing: 0.5rem;
   --loader-animation: 1.2s;
+  --button-depth: 0.5rem;
 }
 
 body {
@@ -24,6 +27,10 @@ body {
   background-color: #0d0d0d;
   font-family: "Montserrat", sans-serif;
   color: var(--text-light);
+}
+
+ul {
+  padding-left: 0;
 }
 
 #canvas-container {
@@ -82,19 +89,34 @@ button {
   letter-spacing: 0.1rem;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-  transform: translateY(0);
+  transform: translateY(calc(var(--button-depth) * -0.5));
   transition: transform var(--quick-animation), border-bottom-left-radius var(--quick-animation), border-bottom-right-radius var(--quick-animation);
 }
 
-button::after {
+button.success::after {
   content: "";
-  height: 0.5rem;
-  background-color: var(--primary-color-darken);
+  height: var(--button-depth);
+  background-color: var(--success-dark);
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  transform: translateY(0.5rem) scaleY(1);
+  transform: translateY(var(--button-depth)) scaleY(1);
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  transform-origin: bottom;
+  transition: transform var(--quick-animation);
+}
+
+button.primary::after {
+  content: "";
+  height: var(--button-depth);
+  background-color: var(--primary-color-dark);
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transform: translateY(var(--button-depth)) scaleY(1);
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   transform-origin: bottom;
@@ -104,38 +126,34 @@ button::after {
 #rooms li {
   list-style: none;
   display: flex;
+  gap: 1rem;
   align-items: center;
 }
 
-#rooms li div {
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
+#rooms li > div {
+  border-radius: 5px;
   text-transform: uppercase;
   font-family: Arial;
   font-size: 2rem;
   background-color: var(--grey);
   padding: 0.75rem;
   color: var(--text-light);
-  margin: 0.75rem 0;
-  width: 32rem;
   letter-spacing: 0.1rem;
 }
 
-#rooms li div + button {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
+#rooms .spot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid white;
 }
 
-#create-room-button {
-  border: none;
-  outline: none;
-  text-transform: uppercase;
-  color: var(--text-light);
-  letter-spacing: 0.1rem;
-  font-weight: 600;
-  border-radius: 3px;
-  padding: 0.5rem 0.75rem;
-  font-size: 1.5rem;
+#rooms .occupied {
+  background-color: white;
+}
+
+#rooms .free {
+  background-color: transparent;
 }
 
 #rooms .room-full div + button {
@@ -170,8 +188,11 @@ button::after {
   animation: spin var(--loader-animation) linear infinite;
 }
 
-
 @keyframes spin {
-  0% { transform: translate(-50%, -50%) rotate(0deg); }
-  100% { transform: translate(-50%, -50%) rotate(360deg); }
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }
