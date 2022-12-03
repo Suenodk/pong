@@ -1,6 +1,6 @@
 const uWS = require("uWebSockets.js");
 const { v4: uuidv4 } = require("uuid");
-const { SCREEN_WIDTH, PORT, HOST, ORIGIN, EVENT_TYPE_ENUM, ROOM_ENUM, GAME_COMMANDS, CATEGORY_ENUM, GAME_ENUM, ACCOUNT_ENUM, CHAT_ENUM } = require("./constants");
+const { PORT, HOST, ORIGIN, EVENT_TYPE_ENUM, ROOM_ENUM, CATEGORY_ENUM, GAME_ENUM, ACCOUNT_ENUM, CHAT_ENUM } = require("./constants");
 const { User } = require("./user");
 const { ServerMessage, ClientMessage, ErrorMessage, SuccesServerMessage } = require("./message");
 const { GameServer } = require("./gameServer");
@@ -10,8 +10,6 @@ const gameServer = new GameServer();
 
 const decoder = new TextDecoder("utf-8");
 
-console.log("Listening on port", PORT);
-
 const app = uWS
   .App()
   .ws("/", {
@@ -20,6 +18,7 @@ const app = uWS
     maxPayloadLength: 16 * 1024 * 1024,
     idleTimeout: 60,
     upgrade: (res, req, context) => {
+      console.log(req.getHeader("origin"))
       if (req.getHeader("origin") !== ORIGIN) {
         res.close();
         return;
@@ -147,121 +146,6 @@ const app = uWS
           break;
         }
       }
-
-      return;
-      if (clientMsg.body.ROOM_ENUM !== undefined) {
-        if (clientMsg.body.ROOM_ENUM === ROOM_ENUM.CREATE_ROOM) {
-        } else if (clientMsg.body.ROOM_ENUM === ROOM_ENUM.JOIN_ROOM) {
-          const roomId = clientMsg.body.roomId;
-          if (ws.room !== undefined) {
-            const currentRoom = ROOMS.find((r) => r.roomId === ws.room);
-
-            if (currentRoom.topClientId === ws.id) {
-              currentRoom.topClientId = undefined;
-            } else if (currentRoom.bottomClientId === ws.id) {
-              currentRoom.bottomClientId = undefined;
-            }
-          }
-          const newRoom = ROOMS.find((r) => r.roomId === roomId);
-
-          if (newRoom === undefined) {
-            console.log("Room is not defined");
-            return;
-          }
-
-          if (newRoom.topClientId === undefined) {
-            console.log("joining as top");
-            newRoom.topClientId = ws.id;
-          } else if (newRoom.bottomClientId === undefined) {
-            console.log("joining as bottom");
-            newRoom.bottomClientId = ws.id;
-          } else {
-            console.log("ROOM IS ALREADY FULL!");
-            return;
-          }
-
-          ws.roomId = roomId;
-
-          serverMsg = {
-            type: EVENT_TYPE_ENUM.CLIENT_MESSAGE,
-            actionType: ROOM_ENUM.JOIN_ROOM,
-            sender: ws.username,
-            room: roomId,
-          };
-
-          app.publish(EVENT_TYPE_ENUM.CLIENT_MESSAGE, JSON.stringify(serverMsg));
-          return;
-        }
-      }
-
-      if (clientMsg.room === "") {
-        console.log(clientMsg, "Message was not send in any room");
-        return;
-      }
-
-      const currentRoom = ROOMS.find((r) => r.roomId === clientMsg.room);
-
-      if (currentRoom === undefined) {
-        console.log(clientMsg, "Room was not found on the server");
-        return;
-      }
-
-      if (!currentRoom.clients.find((c) => c === clientMsg.clientId)) {
-        console.log(clientMsg, "Client sending the message is not in the room specified in the message");
-      }
-
-      if (!GAME_COMMANDS.find((c) => c === clientMsg.body.GAME_UPDATE)) {
-        console.log(clientMsg, "game command not recognized");
-      }
-
-      switch (clientMsg.type) {
-        case EVENT_TYPE_ENUM.CLIENT_MESSAGE:
-          if (clientMsg.body.GAME_UPDATE === GAME_UPDATE.MOVE_LEFT) {
-            if (currentRoom.topClientId === clientMsg.clientId) {
-              currentRoom.gameState.topPaddle.moveLeft();
-            } else if (currentRoom.bottomClientId === clientMsg.clientId) {
-              currentRoom.gameState.bottomPaddle.moveLeft();
-            } else {
-              console.log(clientMsg, "client was still not found for the left movement");
-            }
-          } else if (clientMsg.body.GAME_UPDATE === GAME_UPDATE.MOVE_RIGHT) {
-            if (currentRoom.topClientId === clientMsg.clientId) {
-              currentRoom.gameState.topPaddle.moveRight();
-            } else if (currentRoom.bottomClientId === clientMsg.clientId) {
-              currentRoom.gameState.bottomPaddle.moveRight();
-            } else {
-              console.log(clientMsg, "client was still not found for the right movement");
-            }
-          } else if (clientMsg.body.GAME_UPDATE === GAME_UPDATE.STOP_MOVE_RIGHT) {
-            if (currentRoom.topClientId === clientMsg.clientId) {
-              currentRoom.gameState.topPaddle.stopMoveRight();
-            } else if (currentRoom.bottomClientId === clientMsg.clientId) {
-              currentRoom.gameState.bottomPaddle.stopMoveRight();
-            } else {
-              console.log(clientMsg, "client was still not found for the top right movement");
-            }
-          } else if (clientMsg.body.GAME_UPDATE === GAME_UPDATE.STOP_MOVE_LEFT) {
-            if (currentRoom.topClientId === clientMsg.clientId) {
-              currentRoom.gameState.topPaddle.stopMoveLeft();
-            } else if (currentRoom.bottomClientId === clientMsg.clientId) {
-              currentRoom.gameState.bottomPaddle.stopMoveLeft();
-            } else {
-              console.log(clientMsg, "client was still not found for the top left movement");
-            }
-          }
-
-          serverMsg = {
-            type: EVENT_TYPE_ENUM.CLIENT_MESSAGE,
-            sender: ws.username,
-            room: clientMsg.room,
-            body: { gameState: currentRoom.gameState },
-          };
-
-          app.publish(EVENT_TYPE_ENUM.CLIENT_MESSAGE, JSON.stringify(serverMsg));
-          break;
-        default:
-          console.log("Unknown message type.");
-      }
     },
 
     close: (ws, code, message) => {
@@ -279,3 +163,4 @@ const app = uWS
   });
 
 // 322
+// 167

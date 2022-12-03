@@ -15,6 +15,7 @@
   --quick-animation: 0.2s;
   --normal-animation: 0.8s;
   --spacing: 0.5rem;
+  --loader-animation: 1.2s;
 }
 
 body {
@@ -53,18 +54,6 @@ header {
 .flex-row {
   display: flex;
   flex-direction: row;
-}
-
-#game-screen {
-  display: none;
-}
-
-#lobby-screen {
-  display: none;
-  justify-content: start;
-  align-items: center;
-  height: calc(var(--vh, 1vh) * 100 - 4rem);
-  flex-direction: column;
 }
 
 input {
@@ -154,31 +143,6 @@ button::after {
   color: #808080;
 }
 
-#landing-screen {
-  position: relative;
-  height: calc(var(--vh, 1vh) * 100);
-}
-
-#landing-screen::before {
-  content: "";
-  position: absolute;
-  top: calc(var(--spacing) * 2);
-  left: 20vw;
-  right: 20vw;
-  height: 0.5rem;
-  background-color: white;
-}
-
-#landing-screen::after {
-  content: "";
-  position: absolute;
-  bottom: calc(var(--spacing) * 2);
-  left: 20vw;
-  right: 20vw;
-  height: 0.5rem;
-  background-color: white;
-}
-
 #login-card {
   border-radius: 5px;
   background-color: var(--lighter-grey);
@@ -192,4 +156,22 @@ button::after {
 
 .chat-message .message {
   color: var(--text-secondary);
+}
+
+.loader::before {
+  content: "";
+  position: absolute;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 0.25rem solid transparent;
+  border-top: 0.25rem solid white;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: spin var(--loader-animation) linear infinite;
+}
+
+
+@keyframes spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
 }

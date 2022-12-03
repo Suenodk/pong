@@ -1,9 +1,9 @@
 class Ball {
   graphics;
-  constructor(x, y) {
+  constructor(x, y, r) {
     this.graphics = new PIXI.Graphics();
     this.graphics.beginFill(0xffffff);
-    this.graphics.drawCircle(0, 0, 20);
+    this.graphics.drawCircle(0, 0, r);
     this.graphics.endFill();
     this.graphics.x = x;
     this.graphics.y = y;

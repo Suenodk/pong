@@ -10,18 +10,16 @@ class GameState {
   finished;
 
   constructor(user1, user2) {
-    this.topPaddle = new Paddle(SCREEN_WIDTH / 2, 40);
-    this.bottomPaddle = new Paddle(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 40);
+    this.topPaddle = new Paddle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 20);
+    this.bottomPaddle = new Paddle(SCREEN_WIDTH / 2, SCREEN_HEIGHT - SCREEN_HEIGHT / 20);
     this.topPaddle.user = user1;
     this.bottomPaddle.user = user2;
-    this.topPaddle.speed = this.bottomPaddle.speed = 5;
+    this.topPaddle.speed = this.bottomPaddle.speed = SCREEN_HEIGHT / 50;
     // same as the client
-    this.topPaddle.width = this.bottomPaddle.width = 200;
-    this.topPaddle.height = this.bottomPaddle.height = 20;
-    this.ball = new Ball(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+    this.topPaddle.width = this.bottomPaddle.width = SCREEN_WIDTH / 2.5;
+    this.topPaddle.height = this.bottomPaddle.height = SCREEN_HEIGHT / 50;
+    this.ball = new Ball(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_HEIGHT / 40);
     this.resetBall();
-    // same as the client
-    this.ball.radius = 20;
   }
 
   resetBall() {
@@ -29,7 +27,7 @@ class GameState {
     this.ball.y = SCREEN_HEIGHT / 2;
     this.ball.velocityX = Math.random() * 2 - 1;
     this.ball.velocityY = Math.random() < 0.5 ? -1 : 1;
-    this.ball.speed = 3;
+    this.ball.speed = SCREEN_HEIGHT / 100;
     this.paused = true;
     setTimeout(() => {
       this.paused = false;

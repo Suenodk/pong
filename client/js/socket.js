@@ -159,22 +159,22 @@ function onMessage(event) {
             // so if we are the bottompaddle we set the bottompaddle to the bottompaddle location
             // otherwise we set the bottompaddle to the toppaddle location
             if (clientId === message.data.bottomPaddle.user.id) {
-              bottomPaddle.graphics.x = message.data.bottomPaddle.x;
-              topPaddle.graphics.x = message.data.topPaddle.x;
-              ball.graphics.y = message.data.ball.y;
+              bottomPaddle.graphics.x = message.data.bottomPaddle.x * vw;
+              topPaddle.graphics.x = message.data.topPaddle.x * vw;
+              ball.graphics.y = message.data.ball.y * vh;
               ourScore.text = message.data.bottomPaddle.score;
               theirScore.text = message.data.topPaddle.score;
             } else {
-              topPaddle.graphics.x = message.data.bottomPaddle.x;
-              bottomPaddle.graphics.x = message.data.topPaddle.x;
-              ball.graphics.y = -message.data.ball.y + screenHeight;
+              topPaddle.graphics.x = message.data.bottomPaddle.x * vw;
+              bottomPaddle.graphics.x = message.data.topPaddle.x * vw;
+              ball.graphics.y = -message.data.ball.y * vh + screenHeight;
               score = message.data.topPaddle.score;
               ourScore.text = message.data.topPaddle.score;
               theirScore.text = message.data.bottomPaddle.score;
             }
 
             // updating the ball
-            ball.graphics.x = message.data.ball.x;
+            ball.graphics.x = message.data.ball.x * vw;
           }
         }
       }
@@ -188,7 +188,13 @@ function onMessage(event) {
     case EVENT_TYPE_ENUM.SELF_CONNECTED:
       // the login was successful and we can go to the lobby screen
       clientId = message.data.clientId;
-      document.getElementById("users-online").innerHTML = `${message.data.usersOnline} users online`;
+
+      const usersOnlineH4 = document.createElement("h4");
+      usersOnlineH4.innerHTML = `${message.data.usersOnline} users online`;
+      usersOnlineH4.classList.add("uppercase");
+
+      document.getElementById("users-online-loader").parentElement.appendChild(usersOnlineH4);
+      document.getElementById("users-online-loader").remove();
       break;
     default:
       square.x = msg.x;

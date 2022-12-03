@@ -1,0 +1,39 @@
+#lobby-screen {
+  display: none;
+  justify-content: start;
+  align-items: center;
+  height: calc(var(--vh, 1vh) * 100 - 4rem);
+  flex-direction: column;
+}
+
+#landing-screen {
+  position: relative;
+  height: calc(var(--vh, 1vh) * 100);
+}
+
+#landing-screen::before {
+  content: "";
+  position: absolute;
+  top: calc(var(--spacing) * 2);
+  left: 20vw;
+  right: 20vw;
+  height: 0.5rem;
+  background-color: white;
+}
+
+#landing-screen::after {
+  content: "";
+  position: absolute;
+  bottom: calc(var(--spacing) * 2);
+  left: 20vw;
+  right: 20vw;
+  height: 0.5rem;
+  background-color: white;
+}
+
+#game-screen {
+  display: none;
+  height: calc(var(--vh, 1vh) * 100);
+  justify-content: center;
+  align-items: center;
+}

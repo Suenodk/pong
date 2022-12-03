@@ -1,8 +1,10 @@
 const FRAME_RATE = 60;
-const SCREEN_WIDTH = 600;
-const SCREEN_HEIGHT = 800;
+// percentage of the view width and view height
+// ratio is very important here must be the same as the client 80 wide by 90 high
+const SCREEN_WIDTH = 80;
+const SCREEN_HEIGHT = 90;
 const PORT = process.env.PORT || 3000;
-const ORIGIN = process.env.ORIGIN || "localhost";
+const ORIGIN = process.env.ORIGIN || "http://localhost:8080";
 const HOST = "0.0.0.0";
 
 // add an enum with Object.freeze for code safety

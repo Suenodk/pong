@@ -4,9 +4,10 @@ class Ball {
   velocityY;
   speed;
   radius;
-  constructor(x, y) {
+  constructor(x, y, r) {
     this.x = x;
     this.y = y;
+    this.radius = r;
   }
 
   update() {

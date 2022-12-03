@@ -1,7 +1,8 @@
 // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
 const vh = window.innerHeight * 0.01;
+const vw = window.innerWidth * 0.01;
 // Then we set the value in the --vh custom property to the root of the document
-document.documentElement.style.setProperty('--vh', `${vh}px`);
+document.documentElement.style.setProperty("--vh", `${vh}px`);
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", function () {
@@ -11,15 +12,14 @@ if ("serviceWorker" in navigator) {
       .catch((err) => console.log("service worker not registered", err));
   });
 }
-
-const screenWidth = 600;
-const screenHeight = 800;
+// percentage of the view width and view height
+const screenWidth = 80 * vw;
+const screenHeight = 90 * vh;
 
 let touchX = undefined;
-const touchBuffer = 5;
+const touchBuffer = 8;
 
 let canvasRectangle = document.getElementById("canvas-container").getBoundingClientRect();
-console.log(canvasRectangle);
 
 let app = new PIXI.Application({ width: screenWidth, height: screenHeight });
 document.getElementById("canvas-container").appendChild(app.view);
@@ -36,9 +36,9 @@ const messageContentInput = (document.getElementById("message-content").onkeydow
   }
 });
 
-const bottomPaddle = new Paddle(screenWidth / 2, screenHeight - 40);
-const topPaddle = new Paddle(screenWidth / 2, 40);
-const ball = new Ball(screenWidth / 2, screenHeight / 2);
+const bottomPaddle = new Paddle(screenWidth / 2, screenHeight - screenHeight / 20, screenWidth / 2.5, screenHeight / 50);
+const topPaddle = new Paddle(screenWidth / 2, screenHeight / 20, screenWidth / 2.5, screenHeight / 50);
+const ball = new Ball(screenWidth / 2, screenHeight / 2, screenHeight / 40);
 
 app.ticker.add((delta) => {
   if (currentCountdownNumber !== undefined) {
@@ -126,9 +126,9 @@ function createRoom() {
 
 function navigateToGameRoom(roomId) {
   document.getElementById("lobby-screen").style.display = "none";
-  document.getElementById("game-screen").style.display = "block";
-  document.getElementById("room-id").innerHTML = roomId;
-  document.getElementById("user-you").innerHTML = username;
+  document.getElementById("game-screen").style.display = "flex";
+  // document.getElementById("room-id").innerHTML = roomId;
+  // document.getElementById("user-you").innerHTML = username;
   document.getElementsByTagName("header")[0].style.display = "none";
   canvasRectangle = document.getElementById("canvas-container").getBoundingClientRect();
 }
