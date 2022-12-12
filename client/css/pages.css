@@ -9,26 +9,8 @@
 #landing-screen {
   position: relative;
   height: calc(var(--vh, 1vh) * 100);
-}
-
-#landing-screen::before {
-  content: "";
-  position: absolute;
-  top: calc(var(--spacing) * 2);
-  left: 20vw;
-  right: 20vw;
-  height: 0.5rem;
-  background-color: white;
-}
-
-#landing-screen::after {
-  content: "";
-  position: absolute;
-  bottom: calc(var(--spacing) * 2);
-  left: 20vw;
-  right: 20vw;
-  height: 0.5rem;
-  background-color: white;
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 
 #game-screen {

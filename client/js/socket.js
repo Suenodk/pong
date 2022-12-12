@@ -13,7 +13,7 @@ let currentCountdownNumber;
 let currentRoom;
 
 ws = new WebSocket("wss://server-9i62.onrender.com");
-// const ws = new WebSocket("ws://localhost:3000");
+// const ws = new  WebSocket("ws://localhost:3000");
 ws.addEventListener("open", onOpenConnection);
 ws.addEventListener("close", onCloseConnection);
 ws.addEventListener("message", onMessage);
@@ -191,11 +191,10 @@ function onMessage(event) {
       // the login was successful and we can go to the lobby screen
       clientId = message.data.clientId;
 
-      const usersOnlineH4 = document.createElement("h4");
-      usersOnlineH4.innerHTML = `${message.data.usersOnline} users online`;
-      usersOnlineH4.classList.add("uppercase");
+      const usersOnlineH5 = document.createElement("h5");
+      usersOnlineH5.innerHTML = `${message.data.usersOnline} users online`;
 
-      document.getElementById("users-online-loader").parentElement.appendChild(usersOnlineH4);
+      document.getElementById("users-online-loader").parentElement.appendChild(usersOnlineH5);
       document.getElementById("users-online-loader").remove();
       break;
     default:

@@ -1,15 +1,24 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
 
 :root {
-  --text-light: #cccccc;
-  --text-secondary: #a3a3a3;
-  --text-dark: #0d0d0d;
-  --grey: #333333;
-  --light-grey: #555555;
-  --lighter-grey: #b7b7b7;
-  --primary-color: #452685;
-  --primary-color-dark: #321b5f;
-  --primary-color-light: #5b31af;
+  --black: #19171c;
+  --black-75: #19171cbf;
+  --black-50: #19171c80;
+  --black-25: #19171c40;
+  --black-10: #19171c1a;
+  --black-5: #19171c0d;
+
+  --white: #e5e3e8;
+  --white-75: #e5e3e8bf;
+  --white-50: #e5e3e880;
+  --white-25: #e5e3e840;
+  --white-10: #e5e3e81a;
+  --white-5: #e5e3e80d;
+
+  --primary-color: #492b7c;
+  --primary-color-50: #492b7c80;
+  --primary-color-light: #6038a3;
+
   --success: #1f810e;
   --success-dark: #165c0a;
   --success-light: #2db814;
@@ -24,7 +33,7 @@
 body {
   margin: 0;
   overflow: hidden;
-  background-color: #0d0d0d;
+  background-color: var(--black);
   font-family: "Montserrat", sans-serif;
   color: var(--text-light);
 }
@@ -64,28 +73,34 @@ header {
 }
 
 input {
-  font-size: 1.5rem;
   border: none;
-  border-radius: 5px;
-  background-color: var(--grey);
-  color: var(--text-light);
-  padding: 1rem 0.75rem;
+  border-radius: 4px;
+  background-color: var(--white-25);
+  text-transform: capitalize;
+  color: var(--white);
   outline: none;
-  text-transform: uppercase;
-  letter-spacing: 0.2rem;
-  font-family: "Montserrat", sans-serif;
-  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  font-family: Poppins;
+  border: 1px solid var(--white);
+  padding: 0 0.5rem;
+  height: 30px;
 }
 
 button {
   position: relative;
   border: none;
   outline: none;
+  color: var(--white);
   text-transform: uppercase;
-  padding: 0.75rem;
-  font-size: 1.5rem;
-  font-family: "Montserrat", sans-serif;
-  font-weight: 600;
+  font-family: Poppins;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  text-transform: uppercase;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
   letter-spacing: 0.1rem;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
@@ -111,7 +126,7 @@ button.success::after {
 button.primary::after {
   content: "";
   height: var(--button-depth);
-  background-color: var(--primary-color-dark);
+  background-color: var(--primary-color-50);
   position: absolute;
   left: 0;
   right: 0;

@@ -1,36 +1,58 @@
-h4, h5, h6, .h5, p {
+h4,
+h5,
+h6,
+.h5,
+p {
   margin: 0;
+  color: var(--white);
+}
+
+.body-text {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  font-family: Poppins;
 }
 
 h4 {
-  font-size: 2rem;
-  font-weight: 400;
+  font-family: Poppins;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 48px;
 }
 
 h5 {
-  font-size: 1.5rem;
-  font-weight: 400;
-  margin: 0px;
+  font-family: Poppins;
+  font-size: 23px;
+  font-weight: 700;
+  line-height: 35px;
+}
+
+h3 {
+  font-family: Poppins;
+  font-size: 45px;
+  font-weight: 700;
+  line-height: 68px;
 }
 
 h6 {
-  font-size: 1rem;
+  font-family: Poppins;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+.caption-text {
+  font-family: Poppins;
+  font-size: 11px;
   font-weight: 400;
-  margin: 0px;
+  line-height: 16.5px;
 }
 
-.h5 {
-  font-size: 1.5rem;
-  font-weight: 400;
-  margin: 0px;
-}
-
-.caption {
-  font-weight: 600;
-  font-size: 0.8rem;
-}
-
-.subtitle {
-  color: var(--light-grey);
-  font-size: 0.8rem;
+.button-text {
+  font-family: Poppins;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  text-transform: uppercase;
 }

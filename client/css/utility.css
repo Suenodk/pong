@@ -6,6 +6,9 @@
   gap: 0.5rem;
 }
 
+.gap-3 {
+  gap: calc(var(--spacing) * 3);
+}
 .mb-0 {
   margin-bottom: 0;
 }
@@ -154,7 +157,7 @@ button.error {
 
 button.primary {
   background-color: var(--primary-color);
-  color: var(--text-light);
+  color: var(--white);
 }
 
 button.primary:hover {
@@ -265,4 +268,28 @@ button:hover {
     margin-left: auto;
     margin-right: auto;
   }
+}
+
+.text-white {
+  color: var(--white);
+}
+
+.text-white-75 {
+  color: var(--white-75);
+}
+
+.text-white-50 {
+  color: var(--white-50);
+}
+ 
+.bottom-action-button {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+}
+
+.flex-basis-16 {
+  flex-basis: calc(var(--spacing) * 16);
 }
