@@ -200,18 +200,14 @@ function displayRooms() {
 
   rooms.forEach((r) => {
     const roomElement = document.createElement("li");
-    const roomDisplayWrapper = document.createElement("div");
-    const roomButton = document.createElement("button");
     const roomName = document.createElement("span");
     const roomUsersWrapper = document.createElement("div");
 
-    const joinText = r.users.length === 2 ? "Full" : "Join";
-    const buttonClass = r.users.length === 2 ? "error" : "success";
+    roomElement.classList.add("px-2", "py-1", "d-flex", "justify-space-between");
 
     roomName.innerHTML = r.name;
+    roomName.classList.add("body-text", "text-white");
 
-    roomButton.innerHTML = joinText;
-    roomButton.classList.add(buttonClass);
     roomUsersWrapper.classList.add("ml-2", "d-flex", "gap-1", "align-items-center");
 
     for (let i = 0; i < 2; i++) {
@@ -221,16 +217,13 @@ function displayRooms() {
       roomUsersWrapper.appendChild(roomUserCircle);
     }
 
-    roomButton.onclick = () => {
+    roomElement.onclick = () => {
       // sending a message that we are joining the room
       ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ROOM, ROOM_ENUM.JOIN_ROOM, clientId, r.id)));
     };
 
-    roomDisplayWrapper.classList.add("d-flex", "justify-space-between");
-    roomDisplayWrapper.appendChild(roomName);
-    roomDisplayWrapper.appendChild(roomUsersWrapper);
-    roomElement.appendChild(roomDisplayWrapper);
-    roomElement.appendChild(roomButton);
+    roomElement.appendChild(roomName);
+    roomElement.appendChild(roomUsersWrapper);
     parent.appendChild(roomElement);
   });
 }

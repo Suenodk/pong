@@ -6,6 +6,10 @@
   gap: 0.5rem;
 }
 
+.gap-2 {
+  gap: calc(var(--spacing) * 2);
+}
+
 .gap-3 {
   gap: calc(var(--spacing) * 3);
 }
@@ -226,6 +230,11 @@ button:hover {
 .py-2 {
   padding-top: calc(var(--spacing) * 2);
   padding-bottom: calc(var(--spacing) * 2);
+}
+
+.py-1 {
+  padding-top: var(--spacing);
+  padding-bottom: var(--spacing);
 }
 
 .align-self-start {

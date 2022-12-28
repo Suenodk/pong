@@ -19,9 +19,9 @@
     <title>Ppong</title>
   </head>
   <body>
-    <header>
-      <img src="./assets/ppong_logo_cropped.svg" height="48" />
-      <h6 id="username-display" class="uppercase"></h6>
+    <header class="px-2">
+      <img src="./assets/ppong_logo_cropped.svg" height="24" />
+      <h6 id="username-display" class="caption-text"></h6>
     </header>
     <div id="landing-screen" class="d-flex column justify-space-between">
       <div class="d-flex column gap-3 mt-5 flex-basis-16">
@@ -38,12 +38,8 @@
       <button class="primary bottom-action-button" onclick="login()">Login</button>
     </div>
     <div id="lobby-screen">
-      <button class="mt-2 primary" id="create-room-button" onclick="createRoom()">Create new room</button>
-      <ul id="rooms" class="mt-2 flex-1"></ul>
-      <div class="d-flex column">
-        <div id="chat-messages" class="mx-1 mb-1"></div>
-        <div class="d-flex"><input class="mb-0" id="message-content" /><button onclick="sendMessage()">send</button></div>
-      </div>
+      <ul id="rooms" class="mt-4 flex-1 gap-2 d-flex column"></ul>
+      <button class="primary bottom-action-button" onclick="createRoom()">+ create new room</button>
     </div>
     <div id="game-screen">
       <!-- <div class="centered-text mt2">
@@ -55,6 +51,7 @@
         <h6 id="user-you" class="uppercase"></h6>
       </div>
     </div>
+    <audio id="lobby-song" loop="loop" src="./assets/ppong lobby song.wav"></audio>
     <script src="./js/serviceWorker.js"></script>
     <script src="./js/adjectives.js"></script>
     <script src="https://pixijs.download/release/pixi.js"></script>

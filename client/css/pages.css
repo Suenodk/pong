@@ -1,9 +1,8 @@
 #lobby-screen {
   display: none;
-  justify-content: start;
-  align-items: center;
-  height: calc(var(--vh, 1vh) * 100 - 4rem);
-  flex-direction: column;
+  height: calc(var(--vh, 1vh) * 100);
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 #landing-screen {

@@ -48,13 +48,12 @@ ul {
 }
 
 header {
-  background-color: var(--grey);
+  background-color: var(--primary-color);
   color: var(--text-light);
-  height: 4rem;
+  height: 2rem;
   display: none;
   align-items: center;
   justify-content: space-between;
-  padding: 0 1.5rem;
 }
 
 #room-id {
@@ -140,27 +139,15 @@ button.primary::after {
 
 #rooms li {
   list-style: none;
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-}
-
-#rooms li > div {
-  border-radius: 5px;
-  text-transform: uppercase;
-  font-family: Arial;
-  font-size: 2rem;
-  background-color: var(--grey);
-  padding: 0.75rem;
-  color: var(--text-light);
-  letter-spacing: 0.1rem;
+  background-color: var(--primary-color-50);
+  border-radius: 4px;
 }
 
 #rooms .spot {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  border: 2px solid white;
+  border: 1px solid white;
 }
 
 #rooms .occupied {

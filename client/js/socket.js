@@ -37,6 +37,7 @@ function onMessage(event) {
             document.getElementById("username-display").innerHTML = username;
             document.getElementsByTagName("header")[0].style.display = "flex";
             displayRooms();
+            document.getElementById("lobby-song").play();
           }
           break;
         }
@@ -192,7 +193,7 @@ function onMessage(event) {
       clientId = message.data.clientId;
 
       const usersOnlineH5 = document.createElement("h5");
-      usersOnlineH5.innerHTML = `${message.data.usersOnline} users online`;
+      usersOnlineH5.innerHTML = `${message.data.usersOnline} players online`;
 
       document.getElementById("users-online-loader").parentElement.appendChild(usersOnlineH5);
       document.getElementById("users-online-loader").remove();
