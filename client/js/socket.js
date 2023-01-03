@@ -13,7 +13,7 @@ let currentCountdownNumber;
 let currentRoom;
 
 ws = new WebSocket("wss://server-9i62.onrender.com");
-// const ws = new  WebSocket("ws://localhost:3000");
+// const ws = new WebSocket("ws://localhost:3000");
 ws.addEventListener("open", onOpenConnection);
 ws.addEventListener("close", onCloseConnection);
 ws.addEventListener("message", onMessage);
@@ -56,6 +56,8 @@ function onMessage(event) {
 
             if (message.senderId === clientId) {
               currentRoom = message.data;
+              document.getElementById("player-1").innerHTML = "You";
+              document.getElementById("player-2").innerHTML = "[Empty slot]";
               navigateToGameRoom(message.data.id);
             } else {
               displayRooms();
@@ -70,22 +72,19 @@ function onMessage(event) {
             const foundUser = users.find((u) => u.id === userWhoJoined.id);
             if (foundUser === undefined) users.push(userWhoJoined);
 
+            currentRoom = message.data.room;
+
             // if we joined the room it will be our currentRoom
             if (message.senderId === clientId) {
-              currentRoom = message.data.room;
-            }
-
-            // we also want to add them to the room
-            currentRoom.users.push(userWhoJoined);
-
-            // if it was we that joined the room we want to navigate to it
-            if (message.senderId === clientId) {
               navigateToGameRoom(message.data.room.id);
+              document.getElementById("player-1").innerHTML = currentRoom.users[0].username;
+              document.getElementById("player-2").innerHTML = "You";
             }
-
-            // if someone joined our room we want to render his or her name on the screen
-            // or if we joined the room (this means that there is already somebody there) we want to render the other users name
-            document.getElementById("user-opponent").innerHTML = currentRoom.users.find((u) => u.id !== clientId).username;
+            
+            // if we are the first user that joined the room we want to render the other person
+            if(message.data.room.users[0].id === clientId) {
+              document.getElementById("player-2").innerHTML = currentRoom.users[1].username;
+            }
           } else if (message.message === ROOM_ENUM.LEAVE_ROOM) {
             // we know that if we get a leave room message it applies to the room we are currently in
             const user = users.find((u) => u.id === message.data);
@@ -102,6 +101,10 @@ function onMessage(event) {
               rooms.splice(roomIndex, 1);
               displayRooms();
             }
+          } else if(message.message === ROOM_ENUM.START_ROOM) {
+            document.getElementsByTagName("header")[0].style.display = "none";
+            document.getElementById("room-screen").style.display = "none";
+            document.getElementById("game-screen").style.display = "flex";
           }
         }
         // chat messages

@@ -13,7 +13,7 @@ class Room {
   constructor(id) {
     this.id = id;
     this.name = id;
-    this.victoryPoints = 1;
+    this.victoryPoints = 3;
   }
 
   removeUser(user) {

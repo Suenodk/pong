@@ -35,11 +35,11 @@ const usernameInput = (document.getElementById("username-input").onkeydown = (e)
   }
 });
 
-const messageContentInput = (document.getElementById("message-content").onkeydown = (e) => {
-  if (e.key.toUpperCase() === "ENTER") {
-    sendMessage();
-  }
-});
+// const messageContentInput = (document.getElementById("message-content").onkeydown = (e) => {
+//   if (e.key.toUpperCase() === "ENTER") {
+//     sendMessage();
+//   }
+// });
 
 const bottomPaddle = new Paddle(screenWidth / 2, screenHeight - screenHeight / 20, screenWidth / 2.5, screenHeight / 50);
 const topPaddle = new Paddle(screenWidth / 2, screenHeight / 20, screenWidth / 2.5, screenHeight / 50);
@@ -139,13 +139,11 @@ function createRoom() {
   ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ROOM, ROOM_ENUM.CREATE_ROOM, clientId)));
 }
 
-function navigateToGameRoom(roomId) {
+function navigateToGameRoom() {
   document.getElementById("lobby-screen").style.display = "none";
   document.getElementById("room-screen").style.display = "flex";
-  // document.getElementById("room-id").innerHTML = roomId;
-  // document.getElementById("user-you").innerHTML = username;
-  // document.getElementsByTagName("header")[0].style.display = "none";
-  // canvasRectangle = document.getElementById("canvas-container").getBoundingClientRect();
+  document.getElementById("room-name").value = currentRoom.name;
+  document.getElementById("victory-points").value = currentRoom.victoryPoints;
 }
 
 function login() {
@@ -191,6 +189,10 @@ function displayChatMessages() {
   parent.scrollTop = parent.scrollHeight;
 }
 
+function startGame() {
+  ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ROOM, ROOM_ENUM.START_ROOM, clientId)));
+}
+
 function displayRooms() {
   const parent = document.getElementById("rooms");
 
@@ -203,7 +205,7 @@ function displayRooms() {
     const roomName = document.createElement("span");
     const roomUsersWrapper = document.createElement("div");
 
-    roomElement.classList.add("px-2", "py-1", "d-flex", "justify-space-between");
+    roomElement.classList.add("px-2", "py-1", "d-flex", "justify-space-between", "clickable");
 
     roomName.innerHTML = r.name;
     roomName.classList.add("body-text", "text-white");

@@ -99,6 +99,15 @@ const app = uWS
 
             // send the message to everyone in the room
             room.sendMessageToUsersInRoom(message);
+          } else if(clientMessage.message === ROOM_ENUM.START_ROOM) {
+            const user = gameServer.users.find((u) => u.id === clientMessage.senderId);
+            const room = gameServer.gameRooms.find((r) => r.users.some(u => u === user));
+
+            gameServer.startRoom(room);
+
+            const message = new SuccesServerMessage(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ROOM, ROOM_ENUM.START_ROOM, clientMessage.senderId);
+
+            room.sendMessageToUsersInRoom(message);
           } else {
             const errorMessage = new ErrorMessage(`${clientMessage.message} is not a valid message`);
             console.log(errorMessage.message);

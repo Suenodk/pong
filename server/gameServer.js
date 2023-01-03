@@ -47,6 +47,7 @@ class GameServer {
     const roomId = this.#generateRoomId();
 
     const room = new Room(roomId);
+    room.name = `${user.username}'s room`;
     this.#removeUserFromRoom(user);
     room.addUser(user);
     this.gameRooms.push(room);
@@ -96,11 +97,6 @@ class GameServer {
 
     this.#removeUserFromRoom(user);
     room.addUser(user);
-
-    // This will be replaced by the start room method once you start a room
-    // if (room != this.lobbyRoom && room.users.length === 2) {
-    //   this.startRoom(room);
-    // }
 
     return room;
   }
