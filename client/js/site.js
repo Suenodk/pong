@@ -141,11 +141,11 @@ function createRoom() {
 
 function navigateToGameRoom(roomId) {
   document.getElementById("lobby-screen").style.display = "none";
-  document.getElementById("game-screen").style.display = "flex";
+  document.getElementById("room-screen").style.display = "flex";
   // document.getElementById("room-id").innerHTML = roomId;
-  document.getElementById("user-you").innerHTML = username;
-  document.getElementsByTagName("header")[0].style.display = "none";
-  canvasRectangle = document.getElementById("canvas-container").getBoundingClientRect();
+  // document.getElementById("user-you").innerHTML = username;
+  // document.getElementsByTagName("header")[0].style.display = "none";
+  // canvasRectangle = document.getElementById("canvas-container").getBoundingClientRect();
 }
 
 function login() {

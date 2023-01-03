@@ -3,6 +3,7 @@ const { GameState } = require("./gameState");
 class Room {
   id;
   name;
+  victoryPoints;
   users = [];
   abandoned;
   // lobby room now also has a gamestate, we want to apply this only to game rooms later on
@@ -12,6 +13,7 @@ class Room {
   constructor(id) {
     this.id = id;
     this.name = id;
+    this.victoryPoints = 1;
   }
 
   removeUser(user) {

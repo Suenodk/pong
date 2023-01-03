@@ -13,6 +13,11 @@
 .gap-3 {
   gap: calc(var(--spacing) * 3);
 }
+
+.gap-4 {
+  gap: calc(var(--spacing) * 4);
+}
+
 .mb-0 {
   margin-bottom: 0;
 }
@@ -143,10 +148,6 @@
   font-weight: 600;
 }
 
-input {
-  flex-grow: 1;
-}
-
 button.success {
   background: var(--success);
   color: var(--text-light);
@@ -232,9 +233,19 @@ button:hover {
   padding-bottom: calc(var(--spacing) * 2);
 }
 
+.py-4 {
+  padding-top: calc(var(--spacing) * 4);
+  padding-bottom: calc(var(--spacing) * 4);
+}
+
 .py-1 {
   padding-top: var(--spacing);
   padding-bottom: var(--spacing);
+}
+
+.my-4 {
+  margin-top: calc(var(--spacing) * 4);
+  margin-bottom: calc(var(--spacing) * 4);
 }
 
 .align-self-start {

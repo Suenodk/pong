@@ -222,3 +222,11 @@ button.primary::after {
     transform: translate(-50%, -50%) rotate(360deg);
   }
 }
+
+#room-screen #room-information {
+  background-color: var(--white-5);
+}
+
+#room-screen #room-information #room-players {
+  border-bottom: 1px solid var(--white-25);
+}

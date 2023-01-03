@@ -97,9 +97,10 @@ class GameServer {
     this.#removeUserFromRoom(user);
     room.addUser(user);
 
-    if (room != this.lobbyRoom && room.users.length === 2) {
-      this.startRoom(room);
-    }
+    // This will be replaced by the start room method once you start a room
+    // if (room != this.lobbyRoom && room.users.length === 2) {
+    //   this.startRoom(room);
+    // }
 
     return room;
   }
