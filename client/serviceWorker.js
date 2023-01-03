@@ -16,6 +16,7 @@ self.addEventListener("install", (e) => {
 // if so it will serve the cached file
 self.addEventListener("fetch", (event) => {
   event.respondWith(async () => {
+    console.log(event.request);
     return fetch(event.request);
   });
 });
