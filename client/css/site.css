@@ -87,6 +87,10 @@ input {
   height: 30px;
 }
 
+input:disabled {
+  color: var(--white-50);
+}
+
 button {
   position: relative;
   border: none;
