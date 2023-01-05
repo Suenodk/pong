@@ -38,6 +38,10 @@ function onMessage(event) {
             document.getElementsByTagName("header")[0].style.display = "flex";
             displayRooms();
             document.getElementById("lobby-song").play();
+          } else if(message.message === ACCOUNT_ENUM.LOGOUT) {
+            document.getElementById("lobby-screen").style.display = "none";
+            document.getElementById("landing-screen").style.display = "flex";
+            document.getElementsByTagName("header")[0].style.display = "none";
           }
           break;
         }
@@ -126,7 +130,7 @@ function onMessage(event) {
               app.stage.removeChild(currentCountdownNumber);
             }
             currentCountdownNumber = new PIXI.Text(message.data, {
-              fontFamily: "Montserrat",
+              fontFamily: "Poppins",
               fontSize: screenWidth / 4,
               fill: 0xffffff,
               align: "center",
@@ -138,7 +142,7 @@ function onMessage(event) {
           } else if (message.message === GAME_ENUM.UPDATE_GAME) {
             if (ourScore === undefined) {
               ourScore = new PIXI.Text(0, {
-                fontFamily: "Montserrat",
+                fontFamily: "Poppins",
                 fontSize: screenWidth / 6,
                 fill: 0xffffff,
                 align: "center",
@@ -150,7 +154,7 @@ function onMessage(event) {
             }
             if (theirScore === undefined) {
               theirScore = new PIXI.Text(0, {
-                fontFamily: "Montserrat",
+                fontFamily: "Poppins",
                 fontSize: screenWidth / 6,
                 fill: 0xffffff,
                 align: "center",

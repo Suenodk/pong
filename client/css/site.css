@@ -34,7 +34,7 @@ body {
   margin: 0;
   overflow: hidden;
   background-color: var(--black);
-  font-family: "Montserrat", sans-serif;
+  font-family: Poppins;
   color: var(--text-light);
 }
 
@@ -49,11 +49,15 @@ ul {
 
 header {
   background-color: var(--primary-color);
-  color: var(--text-light);
+  color: var(--white);
   height: 2rem;
   display: none;
   align-items: center;
   justify-content: space-between;
+}
+
+header #action-button:hover {
+  cursor: pointer;
 }
 
 #room-id {
@@ -91,6 +95,10 @@ input:disabled {
   color: var(--white-50);
 }
 
+input:disabled:hover {
+  cursor: not-allowed;
+}
+
 button {
   position: relative;
   border: none;
@@ -126,6 +134,15 @@ button.success::after {
   transition: transform var(--quick-animation);
 }
 
+button.primary:disabled {
+  transform: none;
+  background-color: var(--white-50);
+}
+
+button.primary:disabled:hover {
+  cursor: not-allowed;
+}
+
 button.primary::after {
   content: "";
   height: var(--button-depth);
@@ -139,6 +156,10 @@ button.primary::after {
   border-bottom-right-radius: 5px;
   transform-origin: bottom;
   transition: transform var(--quick-animation);
+}
+
+button.primary:disabled::after {
+  height: 0;
 }
 
 #rooms li {

@@ -1,8 +1,8 @@
 const FRAME_RATE = 120;
 // percentage of the view width and view height
 // ratio is very important here must be the same as the client 8 wide by 9 high
-const SCREEN_WIDTH = 80;
-const SCREEN_HEIGHT = 90;
+const SCREEN_WIDTH = 100;
+const SCREEN_HEIGHT = 100;
 const PORT = process.env.PORT || 3000;
 const ORIGIN = process.env.ORIGIN || "http://localhost:8080";
 const HOST = "0.0.0.0";
@@ -17,7 +17,7 @@ const EVENT_TYPE_ENUM = Object.freeze({
 
 const ACCOUNT_ENUM = Object.freeze({
   LOGIN: "LOGIN",
-  LOGOUT: "LOGUT"
+  LOGOUT: "LOGOUT"
 });
 const CATEGORY_ENUM = Object.freeze({
   SERVER: "SERVER",

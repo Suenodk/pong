@@ -18,15 +18,15 @@ if ("serviceWorker" in navigator) {
   });
 }
 // percentage of the view width and view height
-const screenWidth = 80 * vw;
-const screenHeight = 90 * vh;
+const screenWidth = 100 * vw;
+const screenHeight = 100 * vh;
 
 let touchX = undefined;
 const touchBuffer = 8;
 
 let canvasRectangle = document.getElementById("canvas-container").getBoundingClientRect();
 
-let app = new PIXI.Application({ width: screenWidth, height: screenHeight, antialias: true });
+let app = new PIXI.Application({ width: screenWidth, height: screenHeight, antialias: true, backgroundColor: 0x19171c });
 document.getElementById("canvas-container").appendChild(app.view);
 
 const usernameInput = (document.getElementById("username-input").onkeydown = (e) => {
@@ -228,4 +228,23 @@ function displayRooms() {
     roomElement.appendChild(roomUsersWrapper);
     parent.appendChild(roomElement);
   });
+}
+
+function logout() {
+  ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ACCOUNT, ACCOUNT_ENUM.LOGOUT, clientId)));
+}
+
+function leaveRoom() {
+  ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ROOM, ROOM_ENUM.JOIN_LOBBY, clientId)));
+}
+
+function executeActionButton() {
+  // the action button should do one of the following two things:
+  // logout
+  // move us back to the lobby
+  if(document.getElementById("lobby-screen").style.display !== "none") {
+    logout();
+  } else if(document.getElementById("room-screen").style.display !== "none") {
+    leaveRoom();
+  }
 }

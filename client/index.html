@@ -3,10 +3,7 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#452685" />
-    <meta
-      name="description"
-      content="Play and compete with other people in this online real-time version of Pong."
-    />
+    <meta name="description" content="Play and compete with other people in this online real-time version of Pong." />
     <link rel="stylesheet" href="./css/typography.css" />
     <link rel="stylesheet" href="./css/utility.css" />
     <link rel="stylesheet" href="./css/pages.css" />
@@ -23,15 +20,14 @@
   </head>
   <body>
     <header class="px-2">
+      <span id="action-button" onclick="executeActionButton()"><</span>
       <img src="./assets/ppong_logo_cropped.svg" height="24" />
       <h6 id="username-display" class="caption-text"></h6>
     </header>
     <div id="landing-screen" class="d-flex column justify-space-between">
       <div class="d-flex column gap-3 mt-5 flex-basis-16">
         <img src="./assets/ppong_logo_cropped.svg" height="48" />
-        <h6 class="text-align-center">
-          Challenge players from all over the world
-        </h6>
+        <h6 class="text-align-center">Challenge players from all over the world</h6>
       </div>
       <div class="d-flex column gap-1">
         <input id="username-input" />
@@ -40,48 +36,31 @@
       <div class="d-flex justify-content-center flex-basis-16 mb-5">
         <div class="loader" id="users-online-loader"></div>
       </div>
-      <button class="primary bottom-action-button" onclick="login()">
-        Login
-      </button>
+      <button class="primary bottom-action-button" onclick="login()">Login</button>
     </div>
     <div id="lobby-screen">
       <ul id="rooms" class="mt-4 flex-1 gap-2 d-flex column"></ul>
-      <button class="primary bottom-action-button" onclick="createRoom()">
-        + create new room
-      </button>
+      <button class="primary bottom-action-button" onclick="createRoom()">+ create new room</button>
     </div>
     <div id="room-screen" class="column">
       <input id="room-name" class="my-4 mx-2" />
       <div id="room-information" class="flex-grow-1 px-2 gap-4 d-flex column">
         <div id="room-players" class="d-flex justify-space-around py-1">
-          <span id="player-1" style="max-width: 8rem;" class="body-text text-white flex-grow-1 text-align-center"></span>
+          <span id="player-1" style="max-width: 8rem" class="body-text text-white flex-grow-1 text-align-center"></span>
           <span class="body-text text-white flex-grow-1 text-align-center">vs</span>
-          <span id="player-2" style="max-width: 8rem;" class="body-text text-white flex-grow-1 text-align-center"></span>
+          <span id="player-2" style="max-width: 8rem" class="body-text text-white flex-grow-1 text-align-center"></span>
         </div>
         <div class="d-flex justify-space-between">
           <span class="body-text text-white">Victory points</span>
-          <input id="victory-points" class="text-align-center" style="width: 1rem;" />
+          <input id="victory-points" class="text-align-center" style="width: 1rem" />
         </div>
       </div>
-      <button id="start-game" class="primary bottom-action-button" onclick="startGame()">
-        Start game
-      </button>
+      <button id="start-game" class="primary bottom-action-button" onclick="startGame()">Start game</button>
     </div>
     <div id="game-screen">
-      <div
-        class="d-flex column justify-space-around align-items-center"
-        style="height: 100%;"
-      >
-        <h6 id="user-opponent" class="uppercase"></h6>
-        <div id="canvas-container"></div>
-        <h6 id="user-you" class="uppercase"></h6>
-      </div>
+      <div id="canvas-container"></div>
     </div>
-    <audio
-      id="lobby-song"
-      loop="loop"
-      src="./assets/ppong lobby song.wav"
-    ></audio>
+    <audio id="lobby-song" loop="loop" src="./assets/ppong lobby song.wav"></audio>
     <script src="./js/serviceWorker.js"></script>
     <script src="./js/adjectives.js"></script>
     <script src="https://pixijs.download/release/pixi.js"></script>

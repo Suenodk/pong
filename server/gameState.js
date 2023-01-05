@@ -19,7 +19,7 @@ class GameState {
     this.bottomPaddle = new Paddle(SCREEN_WIDTH / 2, SCREEN_HEIGHT - SCREEN_HEIGHT / 20);
     this.topPaddle.user = user1;
     this.bottomPaddle.user = user2;
-    this.topPaddle.speed = this.bottomPaddle.speed = SCREEN_HEIGHT / 200;
+    this.topPaddle.speed = this.bottomPaddle.speed = SCREEN_WIDTH / 120;
     // same as the client
     this.topPaddle.width = this.bottomPaddle.width = SCREEN_WIDTH / 2.5;
     this.topPaddle.height = this.bottomPaddle.height = SCREEN_HEIGHT / 50;
@@ -33,7 +33,7 @@ class GameState {
     this.ball.y = SCREEN_HEIGHT / 2;
     this.ball.velocityX = Math.random() * 2 - 1;
     this.ball.velocityY = Math.random() < 0.5 ? -1 : 1;
-    this.ball.speed = SCREEN_HEIGHT / 200;
+    this.ball.speed = SCREEN_HEIGHT / 180;
     this.paused = true;
     setTimeout(() => {
       this.paused = false;

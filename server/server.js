@@ -68,6 +68,12 @@ const app = uWS
               users: gameServer.users,
             });
             ws.send(JSON.stringify(selfMessage));
+          } else if(clientMessage.message === ACCOUNT_ENUM.LOGOUT) {
+            const selfMessage = new ServerMessage(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ACCOUNT, ACCOUNT_ENUM.LOGOUT);
+
+            // todo send a message to everyone who knows that this client is online that he or she went offline
+            // gameServer.logoutUser(ws.id);
+            ws.send(JSON.stringify(selfMessage));
           }
           break;
         }
