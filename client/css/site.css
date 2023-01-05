@@ -56,7 +56,7 @@ header {
   justify-content: space-between;
 }
 
-header #action-button:hover {
+header>i:hover {
   cursor: pointer;
 }
 

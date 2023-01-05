@@ -18,7 +18,7 @@ const app = uWS
     maxPayloadLength: 16 * 1024 * 1024,
     idleTimeout: 60,
     upgrade: (res, req, context) => {
-      console.log(req.getHeader("origin"))
+      console.log(req.getHeader("origin"));
       if (req.getHeader("origin") !== ORIGIN) {
         res.close();
         return;
@@ -68,7 +68,7 @@ const app = uWS
               users: gameServer.users,
             });
             ws.send(JSON.stringify(selfMessage));
-          } else if(clientMessage.message === ACCOUNT_ENUM.LOGOUT) {
+          } else if (clientMessage.message === ACCOUNT_ENUM.LOGOUT) {
             const selfMessage = new ServerMessage(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ACCOUNT, ACCOUNT_ENUM.LOGOUT);
 
             // todo send a message to everyone who knows that this client is online that he or she went offline
@@ -105,13 +105,13 @@ const app = uWS
 
             // send the message to everyone in the room
             room.sendMessageToUsersInRoom(message);
-          } else if(clientMessage.message === ROOM_ENUM.START_ROOM) {
+          } else if (clientMessage.message === ROOM_ENUM.START_ROOM) {
             const user = gameServer.users.find((u) => u.id === clientMessage.senderId);
-            const room = gameServer.gameRooms.find((r) => r.users.some(u => u === user));
-            
+            const room = gameServer.gameRooms.find((r) => r.users.some((u) => u === user));
+
             // if the user starting the room is not the original user we don't want to start the room
             // for now we only support games of 2 people
-            if(user !== room.users[0] || room.users.length < 2) {
+            if (user !== room.users[0] || room.users.length < 2) {
               break;
             }
 
@@ -120,6 +120,17 @@ const app = uWS
             const message = new SuccesServerMessage(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ROOM, ROOM_ENUM.START_ROOM, clientMessage.senderId);
 
             room.sendMessageToUsersInRoom(message);
+          } else if (clientMessage.message === ROOM_ENUM.JOIN_LOBBY) {
+            const user = gameServer.users.find((u) => u.id === clientMessage.senderId);
+            gameServer.addUserToLobby(user);
+
+            const message = new SuccesServerMessage(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ROOM, ROOM_ENUM.JOIN_LOBBY, clientMessage.senderId, {
+              rooms: gameServer.gameRooms.filter((r) => r !== gameServer.lobbyRoom),
+              users: gameServer.users,
+            });
+
+            // send the message to the user
+            ws.send(JSON.stringify(message));
           } else {
             const errorMessage = new ErrorMessage(`${clientMessage.message} is not a valid message`);
             console.log(errorMessage.message);
@@ -131,7 +142,7 @@ const app = uWS
         case CATEGORY_ENUM.CHAT: {
           if (clientMessage.message === CHAT_ENUM.SEND_MESSAGE) {
             const user = gameServer.users.find((u) => u.id === clientMessage.senderId);
-            const room = gameServer.gameRooms.find((r) => r.users.some(u => u === user));
+            const room = gameServer.gameRooms.find((r) => r.users.some((u) => u === user));
 
             const message = new ChatMessage(clientMessage.data, user);
 

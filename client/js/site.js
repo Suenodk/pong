@@ -234,7 +234,7 @@ function logout() {
   ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ACCOUNT, ACCOUNT_ENUM.LOGOUT, clientId)));
 }
 
-function leaveRoom() {
+function joinLobby() {
   ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ROOM, ROOM_ENUM.JOIN_LOBBY, clientId)));
 }
 
@@ -245,6 +245,6 @@ function executeActionButton() {
   if(document.getElementById("lobby-screen").style.display !== "none") {
     logout();
   } else if(document.getElementById("room-screen").style.display !== "none") {
-    leaveRoom();
+    joinLobby();
   }
 }

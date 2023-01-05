@@ -21,6 +21,7 @@ class GameServer {
   }
 
   addUserToLobby(user) {
+    this.#removeUserFromRoom(user);
     user.roomId = this.lobbyRoom.id;
     this.#addUserToLobby(user);
   }

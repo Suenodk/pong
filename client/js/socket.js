@@ -12,8 +12,8 @@ let currentCountdownNumber;
 
 let currentRoom;
 
-ws = new WebSocket("wss://server-9i62.onrender.com");
-// const ws = new WebSocket("ws://localhost:3000");
+// ws = new WebSocket("wss://server-9i62.onrender.com");
+const ws = new WebSocket("ws://localhost:3000");
 ws.addEventListener("open", onOpenConnection);
 ws.addEventListener("close", onCloseConnection);
 ws.addEventListener("message", onMessage);
@@ -49,6 +49,7 @@ function onMessage(event) {
           if (message.message === ROOM_ENUM.JOIN_LOBBY) {
             rooms = message.data.rooms;
             users = message.data.users;
+            document.getElementById("room-screen").style.display = "none";
             document.getElementById("game-screen").style.display = "none";
             document.getElementById("lobby-screen").style.display = "flex";
             document.getElementsByTagName("header")[0].style.display = "flex";
