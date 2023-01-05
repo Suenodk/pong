@@ -79,6 +79,9 @@ function onMessage(event) {
               navigateToGameRoom(message.data.room.id);
               document.getElementById("player-1").innerHTML = currentRoom.users[0].username;
               document.getElementById("player-2").innerHTML = "You";
+              document.getElementById("room-name").setAttribute("disabled", "");
+              document.getElementById("victory-points").setAttribute("disabled", "");
+              document.getElementById("start-game").setAttribute("disabled", "");
             }
             
             // if we are the first user that joined the room we want to render the other person

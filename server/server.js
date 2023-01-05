@@ -102,6 +102,12 @@ const app = uWS
           } else if(clientMessage.message === ROOM_ENUM.START_ROOM) {
             const user = gameServer.users.find((u) => u.id === clientMessage.senderId);
             const room = gameServer.gameRooms.find((r) => r.users.some(u => u === user));
+            
+            // if the user starting the room is not the original user we don't want to start the room
+            // for now we only support games of 2 people
+            if(user !== room.users[0] || room.users.length < 2) {
+              break;
+            }
 
             gameServer.startRoom(room);
 
