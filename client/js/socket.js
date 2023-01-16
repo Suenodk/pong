@@ -12,8 +12,8 @@ let currentCountdownNumber;
 
 let currentRoom;
 
-// ws = new WebSocket("wss://server-9i62.onrender.com");
-const ws = new WebSocket("ws://localhost:3000");
+ws = new WebSocket("wss://server-9i62.onrender.com");
+// const ws = new WebSocket("ws://localhost:3000");
 ws.addEventListener("open", onOpenConnection);
 ws.addEventListener("close", onCloseConnection);
 ws.addEventListener("message", onMessage);
@@ -132,7 +132,7 @@ function onMessage(event) {
             }
             currentCountdownNumber = new PIXI.Text(message.data, {
               fontFamily: "Poppins",
-              fontSize: screenWidth / 4,
+              fontSize: screenHeight / 4,
               fill: 0xffffff,
               align: "center",
             });
@@ -144,7 +144,7 @@ function onMessage(event) {
             if (ourScore === undefined) {
               ourScore = new PIXI.Text(0, {
                 fontFamily: "Poppins",
-                fontSize: screenWidth / 6,
+                fontSize: screenHeight / 6,
                 fill: 0xffffff,
                 align: "center",
               });
@@ -156,7 +156,7 @@ function onMessage(event) {
             if (theirScore === undefined) {
               theirScore = new PIXI.Text(0, {
                 fontFamily: "Poppins",
-                fontSize: screenWidth / 6,
+                fontSize: screenHeight / 6,
                 fill: 0xffffff,
                 align: "center",
               });
@@ -184,7 +184,7 @@ function onMessage(event) {
             }
 
             // updating the ball
-            ball.graphics.x = message.data.ball.x * vw;
+            ball.graphics.x = (message.data.ball.x * vw) + message.data.ball.x.map(2, 98, screenHeight / 50 - screenWidth / 50, screenWidth / 50 - screenHeight / 50);
           } else if (message.message === GAME_ENUM.BlAST) {
             for (let i = 0; i < 300; i++) {
               particles.push(new Particle(message.data.x * vw, message.data.y * vh, Math.random() * 5 + 3));

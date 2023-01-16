@@ -50,7 +50,7 @@ ul {
 header {
   background-color: var(--primary-color);
   color: var(--white);
-  height: 2rem;
+  height: 3.5rem;
   display: none;
   align-items: center;
   justify-content: space-between;
@@ -83,12 +83,12 @@ input {
   color: var(--white);
   outline: none;
   font-size: 16px;
-  line-height: 24px;
+  line-height: 2.5rem;
   font-weight: 400;
   font-family: Poppins;
   border: 1px solid var(--white);
   padding: 0 0.5rem;
-  height: 30px;
+  height: 3.5rem;
 }
 
 input:disabled {

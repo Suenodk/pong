@@ -35,6 +35,10 @@ const usernameInput = (document.getElementById("username-input").onkeydown = (e)
   }
 });
 
+Number.prototype.map = function (in_min, in_max, out_min, out_max) {
+  return (this - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
 // const messageContentInput = (document.getElementById("message-content").onkeydown = (e) => {
 //   if (e.key.toUpperCase() === "ENTER") {
 //     sendMessage();
@@ -43,11 +47,11 @@ const usernameInput = (document.getElementById("username-input").onkeydown = (e)
 
 const bottomPaddle = new Paddle(screenWidth / 2, screenHeight - screenHeight / 20, screenWidth / 2.5, screenHeight / 50);
 const topPaddle = new Paddle(screenWidth / 2, screenHeight / 20, screenWidth / 2.5, screenHeight / 50);
-const ball = new Ball(-screenWidth / 2, -screenHeight / 2, screenHeight / 40);
+const ball = new Ball(-screenWidth / 2, -screenHeight / 2, screenHeight / 50);
 
 app.ticker.add((delta) => {
   if (currentCountdownNumber !== undefined) {
-    currentCountdownNumber.style.fontSize -= screenWidth / 200;
+    currentCountdownNumber.style.fontSize -= Math.max(currentCountdownNumber.style.fontSize - screenHeight / 200, 0);
     if (currentCountdownNumber.style.fontSize <= 0) {
       app.stage.removeChild(currentCountdownNumber);
     }

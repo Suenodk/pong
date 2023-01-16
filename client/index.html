@@ -22,8 +22,7 @@
   <body>
     <header class="px-2">
       <i onclick="executeActionButton()" class="fa-solid fa-arrow-left"></i>
-      <img src="./assets/ppong_logo_cropped.svg" height="24" />
-      <h6 id="username-display" class="caption-text"></h6>
+      <h6 id="username-display"></h6>
     </header>
     <div id="landing-screen" class="d-flex column justify-space-between">
       <div class="d-flex column gap-3 mt-5 flex-basis-16">
@@ -51,9 +50,9 @@
           <span class="body-text text-white flex-grow-1 text-align-center">vs</span>
           <span id="player-2" style="max-width: 8rem" class="body-text text-white flex-grow-1 text-align-center"></span>
         </div>
-        <div class="d-flex justify-space-between">
+        <div class="d-flex justify-space-between align-items-center">
           <span class="body-text text-white">Victory points</span>
-          <input id="victory-points" class="text-align-center" style="width: 1rem" />
+          <input id="victory-points" class="text-align-center" style="width: 2.5rem" />
         </div>
       </div>
       <button id="start-game" class="primary bottom-action-button" onclick="startGame()">Start game</button>

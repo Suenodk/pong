@@ -23,7 +23,7 @@ class GameState {
     // same as the client
     this.topPaddle.width = this.bottomPaddle.width = SCREEN_WIDTH / 2.5;
     this.topPaddle.height = this.bottomPaddle.height = SCREEN_HEIGHT / 50;
-    this.ball = new Ball(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_HEIGHT / 40);
+    this.ball = new Ball(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_HEIGHT / 50);
     this.ballSpeedIncrease = SCREEN_HEIGHT / 2000;
     this.resetBall();
   }
@@ -84,6 +84,7 @@ class GameState {
       this.ball.y - this.ball.radius < this.topPaddle.y + this.topPaddle.height / 2 &&
       this.ball.y + this.ball.radius > this.topPaddle.y - this.topPaddle.height / 2
     ) {
+      this.ball.y = this.topPaddle.y + this.topPaddle.height / 2 + this.ball.radius;
       this.ball.velocityY *= -1;
       this.ball.speed += this.ballSpeedIncrease;
     }
@@ -95,6 +96,7 @@ class GameState {
       this.ball.y + this.ball.radius > this.bottomPaddle.y - this.bottomPaddle.height / 2 &&
       this.ball.y - this.ball.radius < this.bottomPaddle.y + this.bottomPaddle.height / 2
     ) {
+      this.ball.y = this.bottomPaddle.y - this.bottomPaddle.height / 2 - this.ball.radius;
       this.ball.velocityY *= -1;
       this.ball.speed += this.ballSpeedIncrease;
     }
