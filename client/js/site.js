@@ -9,17 +9,6 @@ document.getElementById("username-input").placeholder = generatedUsername;
 
 const particles = [];
 
-console.log('going into service worker navigator');
-if ("serviceWorker" in navigator) {
-  console.log("serviceworker in navigator");
-  window.addEventListener("load", function () {
-    console.log("adding serviceworker");
-    navigator.serviceWorker
-      .register("../serviceWorker.js")
-      .then((res) => console.log("service worker registered"))
-      .catch((err) => console.log("service worker not registered", err));
-  });
-}
 // percentage of the view width and view height
 const screenWidth = 100 * vw;
 const screenHeight = 100 * vh;
