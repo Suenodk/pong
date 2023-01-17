@@ -2,8 +2,6 @@ const cacheName = "Ppong";
 
 // Cache all the files to make a PWA
 self.addEventListener("install", (e) => {
-  self.skipWaiting();
-
   e.waitUntil(
     caches.open(cacheName).then((cache) => {
       // Our application only has two files here index.html and manifest.json
