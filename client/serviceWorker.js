@@ -1,4 +1,4 @@
-const cacheName = "Ppong";
+const cacheName = "Ppongv2";
 
 // Cache all the files to make a PWA
 self.addEventListener("install", (e) => {
