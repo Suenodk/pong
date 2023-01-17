@@ -135,6 +135,11 @@ function createRoom() {
   ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ROOM, ROOM_ENUM.CREATE_ROOM, clientId)));
 }
 
+function updateRoomName() {
+  const roomName = document.getElementById("room-name").value;
+  ws.send(JSON.stringify(new Message(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ROOM, ROOM_ENUM.UPDATE_ROOM_NAME, clientId, roomName)));
+}
+
 function navigateToGameRoom() {
   document.getElementById("lobby-screen").style.display = "none";
   document.getElementById("room-screen").style.display = "flex";

@@ -43,7 +43,7 @@
       <button class="primary bottom-action-button" onclick="createRoom()">+ create new room</button>
     </div>
     <div id="room-screen" class="column">
-      <input id="room-name" class="my-4 mx-2" />
+      <input id="room-name" class="my-4 mx-2" type="text" onfocusout="updateRoomName()" />
       <div id="room-information" class="flex-grow-1 px-2 gap-4 d-flex column">
         <div id="room-players" class="d-flex justify-space-around py-1">
           <span id="player-1" style="max-width: 8rem" class="body-text text-white flex-grow-1 text-align-center"></span>

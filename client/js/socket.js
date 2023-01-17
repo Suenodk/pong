@@ -113,6 +113,8 @@ function onMessage(event) {
             document.getElementsByTagName("header")[0].style.display = "none";
             document.getElementById("room-screen").style.display = "none";
             document.getElementById("game-screen").style.display = "flex";
+          } else if(message.message === ROOM_ENUM.UPDATE_ROOM_NAME) {
+            document.getElementById("room-name").value = message.data;
           }
         }
         // chat messages

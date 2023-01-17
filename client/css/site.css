@@ -79,7 +79,6 @@ input {
   border: none;
   border-radius: 4px;
   background-color: var(--white-25);
-  text-transform: capitalize;
   color: var(--white);
   outline: none;
   font-size: 16px;
@@ -88,7 +87,7 @@ input {
   font-family: Poppins;
   border: 1px solid var(--white);
   padding: 0 0.5rem;
-  height: 3.5rem;
+  height: 3rem;
 }
 
 input:disabled {

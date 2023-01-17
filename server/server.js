@@ -124,13 +124,34 @@ const app = uWS
             const user = gameServer.users.find((u) => u.id === clientMessage.senderId);
             gameServer.addUserToLobby(user);
 
-            const message = new SuccesServerMessage(EVENT_TYPE_ENUM.CLIENT_MESSAGE, CATEGORY_ENUM.ROOM, ROOM_ENUM.JOIN_LOBBY, clientMessage.senderId, {
-              rooms: gameServer.gameRooms.filter((r) => r !== gameServer.lobbyRoom),
-              users: gameServer.users,
-            });
+            const message = new SuccesServerMessage(
+              EVENT_TYPE_ENUM.CLIENT_MESSAGE,
+              CATEGORY_ENUM.ROOM,
+              ROOM_ENUM.JOIN_LOBBY,
+              clientMessage.senderId,
+              {
+                rooms: gameServer.gameRooms.filter((r) => r !== gameServer.lobbyRoom),
+                users: gameServer.users,
+              }
+            );
 
             // send the message to the user
             ws.send(JSON.stringify(message));
+          } else if (clientMessage.message === ROOM_ENUM.UPDATE_ROOM_NAME) {
+            const user = gameServer.users.find((u) => u.id === clientMessage.senderId);
+            const room = gameServer.gameRooms.find((r) => r.users.some((u) => u === user));
+
+            room.name = clientMessage.data;
+
+            const message = new SuccesServerMessage(
+              EVENT_TYPE_ENUM.CLIENT_MESSAGE,
+              CATEGORY_ENUM.ROOM,
+              ROOM_ENUM.UPDATE_ROOM_NAME,
+              clientMessage.senderId,
+              room.name
+            )
+
+            room.sendMessageToUsersInRoom(message);
           } else {
             const errorMessage = new ErrorMessage(`${clientMessage.message} is not a valid message`);
             console.log(errorMessage.message);
