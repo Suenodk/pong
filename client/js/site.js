@@ -10,7 +10,9 @@ document.getElementById("username-input").placeholder = generatedUsername;
 const particles = [];
 
 if ("serviceWorker" in navigator) {
+  console.log("serviceworker in navigator");
   window.addEventListener("load", function () {
+    console.log("adding serviceworker");
     navigator.serviceWorker
       .register("../serviceWorker.js")
       .then((res) => console.log("service worker registered"))
