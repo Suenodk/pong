@@ -9,6 +9,7 @@ document.getElementById("username-input").placeholder = generatedUsername;
 
 const particles = [];
 
+console.log('going into service worker navigator');
 if ("serviceWorker" in navigator) {
   console.log("serviceworker in navigator");
   window.addEventListener("load", function () {
